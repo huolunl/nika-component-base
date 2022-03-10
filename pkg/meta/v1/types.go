@@ -1,8 +1,7 @@
-/*
-   @Author:huolun
-   @Date:2022/3/10
-   @Description
-*/
+// Copyright 2020 Lingfei Kong <colin404@foxmail.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file.
+
 package v1
 
 import (
