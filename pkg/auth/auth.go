@@ -24,21 +24,29 @@ func Compare(hashedPassword, password string) error {
 }
 
 // Sign issue a jwt token based on secretID, secretKey, iss and aud.
-func Sign(secretID string, secretKey string, iss, aud string) string {
+func Sign(secretID interface{}, secretKey string, iss, aud string, exp, nbf time.Duration) string {
 	claims := jwt.MapClaims{
-		"exp": time.Now().Add(time.Minute).Unix(),
+		"exp": time.Now().Add(exp).Unix(),
 		"iat": time.Now().Unix(),
-		"nbf": time.Now().Add(0).Unix(),
+		"nbf": time.Now().Add(nbf).Unix(),
 		"aud": aud,
 		"iss": iss,
 	}
-
 	// create a new token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	token.Header["kid"] = secretID
-
 	// Sign the token with the specified secret.
 	tokenString, _ := token.SignedString([]byte(secretKey))
-
 	return tokenString
+}
+
+// Parse a jwt token
+func Parse(tokenString, secretKey string) (interface{}, error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secretKey), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return token.Header["kid"], nil
 }
