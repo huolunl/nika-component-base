@@ -1,0 +1,63 @@
+syntax = "proto3";
+option go_package = "nika_user";
+
+message AuthorizationRequest {
+  string token = 1;
+}
+message AuthorizationResponse {
+  string userName = 1;
+  string nickName = 2;
+  string email = 3;
+  string phone = 4;
+  string role = 5;
+  string department = 6;
+  string tenantName = 7;
+  uint32 status = 8;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+  string tenant = 3;
+}
+message LoginResponse {
+  string token = 1;
+  string userName = 2;
+  string nickName = 3;
+  string email = 4;
+  string phone = 5;
+  string role = 6;
+  string department = 7;
+  string tenantName = 8;
+  uint32 status = 9;
+}
+message CreateUserRequest{
+  string name = 1;
+  string password = 2;
+  string nikeName = 3;
+  string email = 4;
+  string phone = 5;
+  string role = 6;
+  string tenantName = 7;
+  string department = 8;
+}
+message CreateUserResponse{
+  uint64 userID = 1;
+}
+
+message CreateTenantRequest{
+  string name = 1;
+  string email = 2;
+  string phone = 3;
+  string company = 4;
+}
+message CreateTenantResponse{
+  uint64 tenantID = 1;
+}
+
+service NikaUser{
+  rpc Login(LoginRequest) returns (LoginResponse){}
+  rpc CreateTenant(CreateTenantRequest) returns (CreateTenantResponse){}
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+  rpc Authorization(AuthorizationRequest) returns (AuthorizationResponse) {}
+}
