@@ -1,6 +1,5 @@
 syntax = "proto3";
 option go_package = "nika_cluster";
-import "google/protobuf/duration.proto";
 
 message CreateClusterRequest{
   string token = 1;
@@ -25,8 +24,8 @@ message GetClusterResponse{
   string CA = 5;
   uint32 status = 6;
   string name = 7;
-  google.protobuf.Duration  createAt   = 8;
-  google.protobuf.Duration  updatedAt   = 9;
+  string createAt   = 8;
+  string updatedAt   = 9;
 }
 
 
