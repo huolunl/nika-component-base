@@ -12,7 +12,7 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	CreateCluster(ctx context.Context, Req *nika_cluster.CreateClusterRequest, callOptions ...callopt.Option) (r *nika_cluster.CreateClusterResponse, err error)
-	GetCluster(ctx context.Context, Req *nika_cluster.CreateClusterRequest, callOptions ...callopt.Option) (r *nika_cluster.CreateClusterResponse, err error)
+	GetCluster(ctx context.Context, Req *nika_cluster.CreateClusterRequest, callOptions ...callopt.Option) (r *nika_cluster.GetClusterResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -49,7 +49,7 @@ func (p *kNikaClusterClient) CreateCluster(ctx context.Context, Req *nika_cluste
 	return p.kClient.CreateCluster(ctx, Req)
 }
 
-func (p *kNikaClusterClient) GetCluster(ctx context.Context, Req *nika_cluster.CreateClusterRequest, callOptions ...callopt.Option) (r *nika_cluster.CreateClusterResponse, err error) {
+func (p *kNikaClusterClient) GetCluster(ctx context.Context, Req *nika_cluster.CreateClusterRequest, callOptions ...callopt.Option) (r *nika_cluster.GetClusterResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetCluster(ctx, Req)
 }

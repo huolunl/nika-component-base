@@ -32,5 +32,5 @@ message GetClusterResponse{
 
 service NikaCluster{
   rpc CreateCluster(CreateClusterRequest) returns (CreateClusterResponse) {}
-  rpc GetCluster(CreateClusterRequest) returns (CreateClusterResponse) {}
+  rpc GetCluster(CreateClusterRequest) returns (GetClusterResponse) {}
 }

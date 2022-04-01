@@ -209,10 +209,10 @@ func (p *GetClusterArgs) IsSetReq() bool {
 }
 
 type GetClusterResult struct {
-	Success *nika_cluster.CreateClusterResponse
+	Success *nika_cluster.GetClusterResponse
 }
 
-var GetClusterResult_Success_DEFAULT *nika_cluster.CreateClusterResponse
+var GetClusterResult_Success_DEFAULT *nika_cluster.GetClusterResponse
 
 func (p *GetClusterResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -222,7 +222,7 @@ func (p *GetClusterResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *GetClusterResult) Unmarshal(in []byte) error {
-	msg := new(nika_cluster.CreateClusterResponse)
+	msg := new(nika_cluster.GetClusterResponse)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -230,7 +230,7 @@ func (p *GetClusterResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *GetClusterResult) GetSuccess() *nika_cluster.CreateClusterResponse {
+func (p *GetClusterResult) GetSuccess() *nika_cluster.GetClusterResponse {
 	if !p.IsSetSuccess() {
 		return GetClusterResult_Success_DEFAULT
 	}
@@ -238,7 +238,7 @@ func (p *GetClusterResult) GetSuccess() *nika_cluster.CreateClusterResponse {
 }
 
 func (p *GetClusterResult) SetSuccess(x interface{}) {
-	p.Success = x.(*nika_cluster.CreateClusterResponse)
+	p.Success = x.(*nika_cluster.GetClusterResponse)
 }
 
 func (p *GetClusterResult) IsSetSuccess() bool {
@@ -265,7 +265,7 @@ func (p *kClient) CreateCluster(ctx context.Context, Req *nika_cluster.CreateClu
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) GetCluster(ctx context.Context, Req *nika_cluster.CreateClusterRequest) (r *nika_cluster.CreateClusterResponse, err error) {
+func (p *kClient) GetCluster(ctx context.Context, Req *nika_cluster.CreateClusterRequest) (r *nika_cluster.GetClusterResponse, err error) {
 	var _args GetClusterArgs
 	_args.Req = Req
 	var _result GetClusterResult
