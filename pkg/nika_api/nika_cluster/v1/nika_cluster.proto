@@ -6,8 +6,9 @@ message CreateClusterRequest{
   string apiServer = 2;
   string tenant = 3;
   string description = 4;
-  string ca = 5;
+  string CA = 5;
   uint32 status = 6;
+  string name = 7;
 }
 message CreateClusterResponse{
   uint64 clusterID = 1;
