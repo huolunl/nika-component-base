@@ -12,6 +12,7 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	CreateApplication(ctx context.Context, Req *nika_application.CreateApplicationRequest, callOptions ...callopt.Option) (r *nika_application.CreateApplicationResponse, err error)
+	GetApplication(ctx context.Context, Req *nika_application.GetApplicationRequest, callOptions ...callopt.Option) (r *nika_application.GetApplicationResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -46,4 +47,9 @@ type kNikaApplicationClient struct {
 func (p *kNikaApplicationClient) CreateApplication(ctx context.Context, Req *nika_application.CreateApplicationRequest, callOptions ...callopt.Option) (r *nika_application.CreateApplicationResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.CreateApplication(ctx, Req)
+}
+
+func (p *kNikaApplicationClient) GetApplication(ctx context.Context, Req *nika_application.GetApplicationRequest, callOptions ...callopt.Option) (r *nika_application.GetApplicationResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetApplication(ctx, Req)
 }

@@ -7,11 +7,10 @@ message CreateApplicationRequest{
   uint32 status = 3;
   repeated uint64 userIDList = 4;
   repeated uint64 projectIDList = 5;
-  string role = 6;
-  string tenant = 7;
-  string description = 8;
-  repeated Environment Environments = 9;
-  string name = 10;
+  string tenant = 6;
+  string description = 7;
+  repeated Environment Environments = 8;
+  string name = 9;
 }
 message CreateApplicationResponse{
   uint64 appID = 1;
@@ -33,6 +32,16 @@ message Environment {
    uint64 ClusterID = 7;
 }
 
+message GetApplicationRequest{
+  uint64 appID = 1;
+}
+message GetApplicationResponse{
+    CreateApplicationRequest app = 1;
+    string createAt =2;
+    string updateAt = 3;
+}
+
 service NikaApplication{
   rpc CreateApplication(CreateApplicationRequest) returns (CreateApplicationResponse) {}
+  rpc GetApplication(GetApplicationRequest) returns (GetApplicationResponse) {}
 }

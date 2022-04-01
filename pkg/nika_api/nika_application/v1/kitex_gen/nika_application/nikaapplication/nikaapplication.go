@@ -23,6 +23,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	handlerType := (*nika_application.NikaApplication)(nil)
 	methods := map[string]kitex.MethodInfo{
 		"CreateApplication": kitex.NewMethodInfo(createApplicationHandler, newCreateApplicationArgs, newCreateApplicationResult, false),
+		"GetApplication":    kitex.NewMethodInfo(getApplicationHandler, newGetApplicationArgs, newGetApplicationResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "",
@@ -141,6 +142,109 @@ func (p *CreateApplicationResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
+func getApplicationHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_application.GetApplicationRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_application.NikaApplication).GetApplication(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *GetApplicationArgs:
+		success, err := handler.(nika_application.NikaApplication).GetApplication(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*GetApplicationResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newGetApplicationArgs() interface{} {
+	return &GetApplicationArgs{}
+}
+
+func newGetApplicationResult() interface{} {
+	return &GetApplicationResult{}
+}
+
+type GetApplicationArgs struct {
+	Req *nika_application.GetApplicationRequest
+}
+
+func (p *GetApplicationArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in GetApplicationArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *GetApplicationArgs) Unmarshal(in []byte) error {
+	msg := new(nika_application.GetApplicationRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var GetApplicationArgs_Req_DEFAULT *nika_application.GetApplicationRequest
+
+func (p *GetApplicationArgs) GetReq() *nika_application.GetApplicationRequest {
+	if !p.IsSetReq() {
+		return GetApplicationArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *GetApplicationArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type GetApplicationResult struct {
+	Success *nika_application.GetApplicationResponse
+}
+
+var GetApplicationResult_Success_DEFAULT *nika_application.GetApplicationResponse
+
+func (p *GetApplicationResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in GetApplicationResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *GetApplicationResult) Unmarshal(in []byte) error {
+	msg := new(nika_application.GetApplicationResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *GetApplicationResult) GetSuccess() *nika_application.GetApplicationResponse {
+	if !p.IsSetSuccess() {
+		return GetApplicationResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *GetApplicationResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_application.GetApplicationResponse)
+}
+
+func (p *GetApplicationResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -156,6 +260,16 @@ func (p *kClient) CreateApplication(ctx context.Context, Req *nika_application.C
 	_args.Req = Req
 	var _result CreateApplicationResult
 	if err = p.c.Call(ctx, "CreateApplication", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetApplication(ctx context.Context, Req *nika_application.GetApplicationRequest) (r *nika_application.GetApplicationResponse, err error) {
+	var _args GetApplicationArgs
+	_args.Req = Req
+	var _result GetApplicationResult
+	if err = p.c.Call(ctx, "GetApplication", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
