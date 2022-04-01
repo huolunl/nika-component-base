@@ -23,6 +23,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	handlerType := (*nika_cluster.NikaCluster)(nil)
 	methods := map[string]kitex.MethodInfo{
 		"CreateCluster": kitex.NewMethodInfo(createClusterHandler, newCreateClusterArgs, newCreateClusterResult, false),
+		"GetCluster":    kitex.NewMethodInfo(getClusterHandler, newGetClusterArgs, newGetClusterResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "",
@@ -141,6 +142,109 @@ func (p *CreateClusterResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
+func getClusterHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_cluster.CreateClusterRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_cluster.NikaCluster).GetCluster(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *GetClusterArgs:
+		success, err := handler.(nika_cluster.NikaCluster).GetCluster(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*GetClusterResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newGetClusterArgs() interface{} {
+	return &GetClusterArgs{}
+}
+
+func newGetClusterResult() interface{} {
+	return &GetClusterResult{}
+}
+
+type GetClusterArgs struct {
+	Req *nika_cluster.CreateClusterRequest
+}
+
+func (p *GetClusterArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in GetClusterArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *GetClusterArgs) Unmarshal(in []byte) error {
+	msg := new(nika_cluster.CreateClusterRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var GetClusterArgs_Req_DEFAULT *nika_cluster.CreateClusterRequest
+
+func (p *GetClusterArgs) GetReq() *nika_cluster.CreateClusterRequest {
+	if !p.IsSetReq() {
+		return GetClusterArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *GetClusterArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type GetClusterResult struct {
+	Success *nika_cluster.CreateClusterResponse
+}
+
+var GetClusterResult_Success_DEFAULT *nika_cluster.CreateClusterResponse
+
+func (p *GetClusterResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in GetClusterResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *GetClusterResult) Unmarshal(in []byte) error {
+	msg := new(nika_cluster.CreateClusterResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *GetClusterResult) GetSuccess() *nika_cluster.CreateClusterResponse {
+	if !p.IsSetSuccess() {
+		return GetClusterResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *GetClusterResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_cluster.CreateClusterResponse)
+}
+
+func (p *GetClusterResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -156,6 +260,16 @@ func (p *kClient) CreateCluster(ctx context.Context, Req *nika_cluster.CreateClu
 	_args.Req = Req
 	var _result CreateClusterResult
 	if err = p.c.Call(ctx, "CreateCluster", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetCluster(ctx context.Context, Req *nika_cluster.CreateClusterRequest) (r *nika_cluster.CreateClusterResponse, err error) {
+	var _args GetClusterArgs
+	_args.Req = Req
+	var _result GetClusterResult
+	if err = p.c.Call(ctx, "GetCluster", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

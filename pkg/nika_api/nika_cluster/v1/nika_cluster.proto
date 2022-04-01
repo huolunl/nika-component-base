@@ -1,5 +1,6 @@
 syntax = "proto3";
 option go_package = "nika_cluster";
+import "google/protobuf/duration.proto";
 
 message CreateClusterRequest{
   string token = 1;
@@ -13,8 +14,23 @@ message CreateClusterRequest{
 message CreateClusterResponse{
   uint64 clusterID = 1;
 }
+message GetClusterRequest{
+  uint64 clusterID = 1;
+}
+message GetClusterResponse{
+  string token = 1;
+  string apiServer = 2;
+  string tenant = 3;
+  string description = 4;
+  string CA = 5;
+  uint32 status = 6;
+  string name = 7;
+  google.protobuf.Duration  createAt   = 8;
+  google.protobuf.Duration  updatedAt   = 9;
+}
 
 
 service NikaCluster{
   rpc CreateCluster(CreateClusterRequest) returns (CreateClusterResponse) {}
+  rpc GetCluster(CreateClusterRequest) returns (CreateClusterResponse) {}
 }
