@@ -23,8 +23,8 @@ message Chart {
    string Version = 4;
 }
 message Environment {
-    string Name = 1;
-     bytes Value=2;
+  string Name = 1;
+  bytes Value=2;
    string Namespace =3;
    string Release=4;
    string ApiServer=5;
