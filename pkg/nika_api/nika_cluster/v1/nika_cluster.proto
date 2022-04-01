@@ -1,0 +1,19 @@
+syntax = "proto3";
+option go_package = "nika_cluster";
+
+message CreateClusterRequest{
+  string token = 1;
+  string apiServer = 2;
+  string tenant = 3;
+  string description = 4;
+  string ca = 5;
+  uint32 status = 6;
+}
+message CreateClusterResponse{
+  uint64 clusterID = 1;
+}
+
+
+service NikaCluster{
+  rpc CreateCluster(CreateClusterRequest) returns (CreateClusterResponse) {}
+}

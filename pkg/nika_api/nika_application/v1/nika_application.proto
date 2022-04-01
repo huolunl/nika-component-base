@@ -8,9 +8,10 @@ message CreateApplicationRequest{
   repeated uint64 userIDList = 4;
   repeated uint64 projectIDList = 5;
   string role = 6;
-  string tenantName = 7;
+  string tenant = 7;
   string description = 8;
   repeated Environment Environments = 9;
+  string name = 10;
 }
 message CreateApplicationResponse{
   uint64 appID = 1;
@@ -27,13 +28,10 @@ message Environment {
   bytes Value=2;
    string Namespace =3;
    string Release=4;
-   string ApiServer=5;
-   string Token =6;
-   string CA=7;
-   Chart Chart=8;
-   bytes ValueTemplate=9;
+   Chart Chart=5;
+   bytes ValueTemplate=6;
+   uint64 ClusterID = 7;
 }
-
 
 service NikaApplication{
   rpc CreateApplication(CreateApplicationRequest) returns (CreateApplicationResponse) {}
