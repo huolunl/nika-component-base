@@ -11,6 +11,8 @@ message CreateApplicationRequest{
   string description = 7;
   repeated Environment Environments = 8;
   string name = 9;
+  string drone = 10;
+  string sonarQube = 11;
 }
 message CreateApplicationResponse{
   uint64 appID = 1;
