@@ -18,6 +18,7 @@ message ApplyRequest{
   string EnvValues = 14;
   string Cmd = 15;
   string Log = 16;
+  bool Debug = 17;
 }
 message ApplyResponse{
   uint64 DeployRecordID = 1;
