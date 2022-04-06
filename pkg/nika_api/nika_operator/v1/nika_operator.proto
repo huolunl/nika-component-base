@@ -20,6 +20,8 @@ message ApplyRequest{
   string Log = 16;
   bool Debug = 17;
   string nickName = 18;
+  string applicationName = 19;
+  uint64 applicationID = 20;
 }
 message ApplyResponse{
   uint64 DeployRecordID = 1;
