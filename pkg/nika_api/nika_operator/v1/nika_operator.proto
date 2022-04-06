@@ -1,0 +1,29 @@
+syntax = "proto3";
+option go_package = "nika_operator";
+
+message ApplyRequest{
+  string tenant = 1;
+  string userName = 2;
+  uint64 userID = 3;
+  string ApiServer = 4;
+  string Token = 5;
+  string CA = 6;
+  string HelmRepositoryName = 7;
+  string HelmRepositoryURL = 8;
+  string Namespace = 9;
+  string Release = 10;
+  string Chart = 11;
+  string ReleaseValues = 12;
+  string EnvName = 13;
+  string EnvValues = 14;
+  string Cmd = 15;
+  string Log = 16;
+}
+message ApplyResponse{
+  uint64 DeployRecordID = 1;
+}
+
+service NikaOperator{
+  rpc Apply(ApplyRequest) returns (ApplyResponse){}
+}
+
