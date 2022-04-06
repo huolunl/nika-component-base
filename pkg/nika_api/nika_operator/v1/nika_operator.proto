@@ -19,6 +19,7 @@ message ApplyRequest{
   string Cmd = 15;
   string Log = 16;
   bool Debug = 17;
+  string nickName = 18;
 }
 message ApplyResponse{
   uint64 DeployRecordID = 1;
