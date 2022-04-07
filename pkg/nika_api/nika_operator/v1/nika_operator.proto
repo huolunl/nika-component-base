@@ -49,7 +49,7 @@ message GetExecRecordResponse{
   string Tenant = 16;
   string UserName = 17;
   string NickName = 18;
-  string UserID = 19;
+  uint64 UserID = 19;
   string ApplicationName = 20;
   bool Debug = 21;
   uint64 ApplicationID = 22;
