@@ -11,7 +11,8 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	Apply(ctx context.Context, Req *nika_operator.ApplyRequest, callOptions ...callopt.Option) (r *nika_operator.ApplyResponse, err error)
+	Exec(ctx context.Context, Req *nika_operator.ExecRequest, callOptions ...callopt.Option) (r *nika_operator.ExecResponse, err error)
+	GetExecRecord(ctx context.Context, Req *nika_operator.GetExecRecordRequest, callOptions ...callopt.Option) (r *nika_operator.GetExecRecordResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -43,7 +44,12 @@ type kNikaOperatorClient struct {
 	*kClient
 }
 
-func (p *kNikaOperatorClient) Apply(ctx context.Context, Req *nika_operator.ApplyRequest, callOptions ...callopt.Option) (r *nika_operator.ApplyResponse, err error) {
+func (p *kNikaOperatorClient) Exec(ctx context.Context, Req *nika_operator.ExecRequest, callOptions ...callopt.Option) (r *nika_operator.ExecResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.Apply(ctx, Req)
+	return p.kClient.Exec(ctx, Req)
+}
+
+func (p *kNikaOperatorClient) GetExecRecord(ctx context.Context, Req *nika_operator.GetExecRecordRequest, callOptions ...callopt.Option) (r *nika_operator.GetExecRecordResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetExecRecord(ctx, Req)
 }

@@ -22,7 +22,8 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "NikaOperator"
 	handlerType := (*nika_operator.NikaOperator)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"Apply": kitex.NewMethodInfo(applyHandler, newApplyArgs, newApplyResult, false),
+		"Exec":          kitex.NewMethodInfo(execHandler, newExecArgs, newExecResult, false),
+		"GetExecRecord": kitex.NewMethodInfo(getExecRecordHandler, newGetExecRecordArgs, newGetExecRecordResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "",
@@ -38,52 +39,52 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	return svcInfo
 }
 
-func applyHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+func execHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(nika_operator.ApplyRequest)
+		req := new(nika_operator.ExecRequest)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(nika_operator.NikaOperator).Apply(ctx, req)
+		resp, err := handler.(nika_operator.NikaOperator).Exec(ctx, req)
 		if err != nil {
 			return err
 		}
 		if err := st.SendMsg(resp); err != nil {
 			return err
 		}
-	case *ApplyArgs:
-		success, err := handler.(nika_operator.NikaOperator).Apply(ctx, s.Req)
+	case *ExecArgs:
+		success, err := handler.(nika_operator.NikaOperator).Exec(ctx, s.Req)
 		if err != nil {
 			return err
 		}
-		realResult := result.(*ApplyResult)
+		realResult := result.(*ExecResult)
 		realResult.Success = success
 	}
 	return nil
 }
-func newApplyArgs() interface{} {
-	return &ApplyArgs{}
+func newExecArgs() interface{} {
+	return &ExecArgs{}
 }
 
-func newApplyResult() interface{} {
-	return &ApplyResult{}
+func newExecResult() interface{} {
+	return &ExecResult{}
 }
 
-type ApplyArgs struct {
-	Req *nika_operator.ApplyRequest
+type ExecArgs struct {
+	Req *nika_operator.ExecRequest
 }
 
-func (p *ApplyArgs) Marshal(out []byte) ([]byte, error) {
+func (p *ExecArgs) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetReq() {
-		return out, fmt.Errorf("No req in ApplyArgs")
+		return out, fmt.Errorf("No req in ExecArgs")
 	}
 	return proto.Marshal(p.Req)
 }
 
-func (p *ApplyArgs) Unmarshal(in []byte) error {
-	msg := new(nika_operator.ApplyRequest)
+func (p *ExecArgs) Unmarshal(in []byte) error {
+	msg := new(nika_operator.ExecRequest)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -91,34 +92,34 @@ func (p *ApplyArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var ApplyArgs_Req_DEFAULT *nika_operator.ApplyRequest
+var ExecArgs_Req_DEFAULT *nika_operator.ExecRequest
 
-func (p *ApplyArgs) GetReq() *nika_operator.ApplyRequest {
+func (p *ExecArgs) GetReq() *nika_operator.ExecRequest {
 	if !p.IsSetReq() {
-		return ApplyArgs_Req_DEFAULT
+		return ExecArgs_Req_DEFAULT
 	}
 	return p.Req
 }
 
-func (p *ApplyArgs) IsSetReq() bool {
+func (p *ExecArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-type ApplyResult struct {
-	Success *nika_operator.ApplyResponse
+type ExecResult struct {
+	Success *nika_operator.ExecResponse
 }
 
-var ApplyResult_Success_DEFAULT *nika_operator.ApplyResponse
+var ExecResult_Success_DEFAULT *nika_operator.ExecResponse
 
-func (p *ApplyResult) Marshal(out []byte) ([]byte, error) {
+func (p *ExecResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
-		return out, fmt.Errorf("No req in ApplyResult")
+		return out, fmt.Errorf("No req in ExecResult")
 	}
 	return proto.Marshal(p.Success)
 }
 
-func (p *ApplyResult) Unmarshal(in []byte) error {
-	msg := new(nika_operator.ApplyResponse)
+func (p *ExecResult) Unmarshal(in []byte) error {
+	msg := new(nika_operator.ExecResponse)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -126,18 +127,121 @@ func (p *ApplyResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *ApplyResult) GetSuccess() *nika_operator.ApplyResponse {
+func (p *ExecResult) GetSuccess() *nika_operator.ExecResponse {
 	if !p.IsSetSuccess() {
-		return ApplyResult_Success_DEFAULT
+		return ExecResult_Success_DEFAULT
 	}
 	return p.Success
 }
 
-func (p *ApplyResult) SetSuccess(x interface{}) {
-	p.Success = x.(*nika_operator.ApplyResponse)
+func (p *ExecResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_operator.ExecResponse)
 }
 
-func (p *ApplyResult) IsSetSuccess() bool {
+func (p *ExecResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func getExecRecordHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_operator.GetExecRecordRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_operator.NikaOperator).GetExecRecord(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *GetExecRecordArgs:
+		success, err := handler.(nika_operator.NikaOperator).GetExecRecord(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*GetExecRecordResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newGetExecRecordArgs() interface{} {
+	return &GetExecRecordArgs{}
+}
+
+func newGetExecRecordResult() interface{} {
+	return &GetExecRecordResult{}
+}
+
+type GetExecRecordArgs struct {
+	Req *nika_operator.GetExecRecordRequest
+}
+
+func (p *GetExecRecordArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in GetExecRecordArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *GetExecRecordArgs) Unmarshal(in []byte) error {
+	msg := new(nika_operator.GetExecRecordRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var GetExecRecordArgs_Req_DEFAULT *nika_operator.GetExecRecordRequest
+
+func (p *GetExecRecordArgs) GetReq() *nika_operator.GetExecRecordRequest {
+	if !p.IsSetReq() {
+		return GetExecRecordArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *GetExecRecordArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type GetExecRecordResult struct {
+	Success *nika_operator.GetExecRecordResponse
+}
+
+var GetExecRecordResult_Success_DEFAULT *nika_operator.GetExecRecordResponse
+
+func (p *GetExecRecordResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in GetExecRecordResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *GetExecRecordResult) Unmarshal(in []byte) error {
+	msg := new(nika_operator.GetExecRecordResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *GetExecRecordResult) GetSuccess() *nika_operator.GetExecRecordResponse {
+	if !p.IsSetSuccess() {
+		return GetExecRecordResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *GetExecRecordResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_operator.GetExecRecordResponse)
+}
+
+func (p *GetExecRecordResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
@@ -151,11 +255,21 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
-func (p *kClient) Apply(ctx context.Context, Req *nika_operator.ApplyRequest) (r *nika_operator.ApplyResponse, err error) {
-	var _args ApplyArgs
+func (p *kClient) Exec(ctx context.Context, Req *nika_operator.ExecRequest) (r *nika_operator.ExecResponse, err error) {
+	var _args ExecArgs
 	_args.Req = Req
-	var _result ApplyResult
-	if err = p.c.Call(ctx, "Apply", &_args, &_result); err != nil {
+	var _result ExecResult
+	if err = p.c.Call(ctx, "Exec", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetExecRecord(ctx context.Context, Req *nika_operator.GetExecRecordRequest) (r *nika_operator.GetExecRecordResponse, err error) {
+	var _args GetExecRecordArgs
+	_args.Req = Req
+	var _result GetExecRecordResult
+	if err = p.c.Call(ctx, "GetExecRecord", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
