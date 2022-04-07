@@ -13,6 +13,7 @@ message AuthorizationResponse {
   string department = 6;
   string tenant = 7;
   uint32 status = 8;
+  uint64 userID= 9;
 }
 
 message LoginRequest {
