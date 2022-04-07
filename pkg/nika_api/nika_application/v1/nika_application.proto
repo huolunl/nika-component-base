@@ -6,7 +6,7 @@ message CreateApplicationRequest{
   uint32 type = 2;
   uint32 status = 3;
   repeated uint64 userIDList = 4;
-  repeated uint64 projectIDList = 5;
+  repeated string projectNameList = 5;
   string tenant = 6;
   string description = 7;
   repeated Environment Environments = 8;
