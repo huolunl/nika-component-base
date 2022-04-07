@@ -23,6 +23,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	handlerType := (*nika_application.NikaApplication)(nil)
 	methods := map[string]kitex.MethodInfo{
 		"CreateApplication": kitex.NewMethodInfo(createApplicationHandler, newCreateApplicationArgs, newCreateApplicationResult, false),
+		"UpdateApplication": kitex.NewMethodInfo(updateApplicationHandler, newUpdateApplicationArgs, newUpdateApplicationResult, false),
 		"GetApplication":    kitex.NewMethodInfo(getApplicationHandler, newGetApplicationArgs, newGetApplicationResult, false),
 	}
 	extra := map[string]interface{}{
@@ -139,6 +140,109 @@ func (p *CreateApplicationResult) SetSuccess(x interface{}) {
 }
 
 func (p *CreateApplicationResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func updateApplicationHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_application.UpdateApplicationRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_application.NikaApplication).UpdateApplication(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *UpdateApplicationArgs:
+		success, err := handler.(nika_application.NikaApplication).UpdateApplication(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UpdateApplicationResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newUpdateApplicationArgs() interface{} {
+	return &UpdateApplicationArgs{}
+}
+
+func newUpdateApplicationResult() interface{} {
+	return &UpdateApplicationResult{}
+}
+
+type UpdateApplicationArgs struct {
+	Req *nika_application.UpdateApplicationRequest
+}
+
+func (p *UpdateApplicationArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in UpdateApplicationArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UpdateApplicationArgs) Unmarshal(in []byte) error {
+	msg := new(nika_application.UpdateApplicationRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UpdateApplicationArgs_Req_DEFAULT *nika_application.UpdateApplicationRequest
+
+func (p *UpdateApplicationArgs) GetReq() *nika_application.UpdateApplicationRequest {
+	if !p.IsSetReq() {
+		return UpdateApplicationArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UpdateApplicationArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type UpdateApplicationResult struct {
+	Success *nika_application.UpdateApplicationResponse
+}
+
+var UpdateApplicationResult_Success_DEFAULT *nika_application.UpdateApplicationResponse
+
+func (p *UpdateApplicationResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in UpdateApplicationResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UpdateApplicationResult) Unmarshal(in []byte) error {
+	msg := new(nika_application.UpdateApplicationResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UpdateApplicationResult) GetSuccess() *nika_application.UpdateApplicationResponse {
+	if !p.IsSetSuccess() {
+		return UpdateApplicationResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UpdateApplicationResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_application.UpdateApplicationResponse)
+}
+
+func (p *UpdateApplicationResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
@@ -260,6 +364,16 @@ func (p *kClient) CreateApplication(ctx context.Context, Req *nika_application.C
 	_args.Req = Req
 	var _result CreateApplicationResult
 	if err = p.c.Call(ctx, "CreateApplication", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UpdateApplication(ctx context.Context, Req *nika_application.UpdateApplicationRequest) (r *nika_application.UpdateApplicationResponse, err error) {
+	var _args UpdateApplicationArgs
+	_args.Req = Req
+	var _result UpdateApplicationResult
+	if err = p.c.Call(ctx, "UpdateApplication", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

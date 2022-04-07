@@ -43,7 +43,17 @@ message GetApplicationResponse{
     string updateAt = 3;
 }
 
+message UpdateApplicationRequest {
+  CreateApplicationRequest app = 1;
+  uint64 appID = 2;
+}
+message UpdateApplicationResponse {
+
+}
+
+
 service NikaApplication{
   rpc CreateApplication(CreateApplicationRequest) returns (CreateApplicationResponse) {}
+  rpc UpdateApplication(UpdateApplicationRequest) returns (UpdateApplicationResponse) {}
   rpc GetApplication(GetApplicationRequest) returns (GetApplicationResponse) {}
 }
