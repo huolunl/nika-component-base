@@ -22,6 +22,7 @@ message ApplyRequest{
   string nickName = 18;
   string applicationName = 19;
   uint64 applicationID = 20;
+  string version = 21;
 }
 message ApplyResponse{
   uint64 DeployRecordID = 1;
