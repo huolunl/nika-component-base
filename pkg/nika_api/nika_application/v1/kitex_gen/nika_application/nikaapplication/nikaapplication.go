@@ -25,6 +25,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"CreateApplication": kitex.NewMethodInfo(createApplicationHandler, newCreateApplicationArgs, newCreateApplicationResult, false),
 		"UpdateApplication": kitex.NewMethodInfo(updateApplicationHandler, newUpdateApplicationArgs, newUpdateApplicationResult, false),
 		"GetApplication":    kitex.NewMethodInfo(getApplicationHandler, newGetApplicationArgs, newGetApplicationResult, false),
+		"ListApplication":   kitex.NewMethodInfo(listApplicationHandler, newListApplicationArgs, newListApplicationResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "",
@@ -349,6 +350,109 @@ func (p *GetApplicationResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
+func listApplicationHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_application.ListApplicationRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_application.NikaApplication).ListApplication(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *ListApplicationArgs:
+		success, err := handler.(nika_application.NikaApplication).ListApplication(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ListApplicationResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newListApplicationArgs() interface{} {
+	return &ListApplicationArgs{}
+}
+
+func newListApplicationResult() interface{} {
+	return &ListApplicationResult{}
+}
+
+type ListApplicationArgs struct {
+	Req *nika_application.ListApplicationRequest
+}
+
+func (p *ListApplicationArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in ListApplicationArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ListApplicationArgs) Unmarshal(in []byte) error {
+	msg := new(nika_application.ListApplicationRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ListApplicationArgs_Req_DEFAULT *nika_application.ListApplicationRequest
+
+func (p *ListApplicationArgs) GetReq() *nika_application.ListApplicationRequest {
+	if !p.IsSetReq() {
+		return ListApplicationArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ListApplicationArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type ListApplicationResult struct {
+	Success *nika_application.ListApplicationResponse
+}
+
+var ListApplicationResult_Success_DEFAULT *nika_application.ListApplicationResponse
+
+func (p *ListApplicationResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in ListApplicationResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ListApplicationResult) Unmarshal(in []byte) error {
+	msg := new(nika_application.ListApplicationResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ListApplicationResult) GetSuccess() *nika_application.ListApplicationResponse {
+	if !p.IsSetSuccess() {
+		return ListApplicationResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ListApplicationResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_application.ListApplicationResponse)
+}
+
+func (p *ListApplicationResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -384,6 +488,16 @@ func (p *kClient) GetApplication(ctx context.Context, Req *nika_application.GetA
 	_args.Req = Req
 	var _result GetApplicationResult
 	if err = p.c.Call(ctx, "GetApplication", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ListApplication(ctx context.Context, Req *nika_application.ListApplicationRequest) (r *nika_application.ListApplicationResponse, err error) {
+	var _args ListApplicationArgs
+	_args.Req = Req
+	var _result ListApplicationResult
+	if err = p.c.Call(ctx, "ListApplication", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

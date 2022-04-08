@@ -41,6 +41,7 @@ message GetApplicationResponse{
     CreateApplicationRequest app = 1;
     string createAt =2;
     string updateAt = 3;
+    uint64 appID =4;
 }
 
 message UpdateApplicationRequest {
@@ -50,10 +51,19 @@ message UpdateApplicationRequest {
 message UpdateApplicationResponse {
 
 }
-
+message ListApplicationRequest{
+  string tenant = 1;
+  string project = 2;
+  int64 offset = 3;
+  int64 limit = 4;
+}
+message ListApplicationResponse{
+  repeated GetApplicationResponse applications = 1;
+}
 
 service NikaApplication{
   rpc CreateApplication(CreateApplicationRequest) returns (CreateApplicationResponse) {}
   rpc UpdateApplication(UpdateApplicationRequest) returns (UpdateApplicationResponse) {}
   rpc GetApplication(GetApplicationRequest) returns (GetApplicationResponse) {}
+  rpc ListApplication(ListApplicationRequest) returns (ListApplicationResponse) {}
 }

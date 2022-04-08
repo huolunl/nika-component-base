@@ -14,6 +14,7 @@ type Client interface {
 	CreateApplication(ctx context.Context, Req *nika_application.CreateApplicationRequest, callOptions ...callopt.Option) (r *nika_application.CreateApplicationResponse, err error)
 	UpdateApplication(ctx context.Context, Req *nika_application.UpdateApplicationRequest, callOptions ...callopt.Option) (r *nika_application.UpdateApplicationResponse, err error)
 	GetApplication(ctx context.Context, Req *nika_application.GetApplicationRequest, callOptions ...callopt.Option) (r *nika_application.GetApplicationResponse, err error)
+	ListApplication(ctx context.Context, Req *nika_application.ListApplicationRequest, callOptions ...callopt.Option) (r *nika_application.ListApplicationResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -58,4 +59,9 @@ func (p *kNikaApplicationClient) UpdateApplication(ctx context.Context, Req *nik
 func (p *kNikaApplicationClient) GetApplication(ctx context.Context, Req *nika_application.GetApplicationRequest, callOptions ...callopt.Option) (r *nika_application.GetApplicationResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetApplication(ctx, Req)
+}
+
+func (p *kNikaApplicationClient) ListApplication(ctx context.Context, Req *nika_application.ListApplicationRequest, callOptions ...callopt.Option) (r *nika_application.ListApplicationResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ListApplication(ctx, Req)
 }
