@@ -22,8 +22,9 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "NikaOperator"
 	handlerType := (*nika_operator.NikaOperator)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"Exec":          kitex.NewMethodInfo(execHandler, newExecArgs, newExecResult, false),
-		"GetExecRecord": kitex.NewMethodInfo(getExecRecordHandler, newGetExecRecordArgs, newGetExecRecordResult, false),
+		"Exec":                                  kitex.NewMethodInfo(execHandler, newExecArgs, newExecResult, false),
+		"GetExecRecord":                         kitex.NewMethodInfo(getExecRecordHandler, newGetExecRecordArgs, newGetExecRecordResult, false),
+		"ListExecRecordByAppIDAndEnvNameAndCmd": kitex.NewMethodInfo(listExecRecordByAppIDAndEnvNameAndCmdHandler, newListExecRecordByAppIDAndEnvNameAndCmdArgs, newListExecRecordByAppIDAndEnvNameAndCmdResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "",
@@ -245,6 +246,109 @@ func (p *GetExecRecordResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
+func listExecRecordByAppIDAndEnvNameAndCmdHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_operator.NikaOperator).ListExecRecordByAppIDAndEnvNameAndCmd(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *ListExecRecordByAppIDAndEnvNameAndCmdArgs:
+		success, err := handler.(nika_operator.NikaOperator).ListExecRecordByAppIDAndEnvNameAndCmd(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ListExecRecordByAppIDAndEnvNameAndCmdResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newListExecRecordByAppIDAndEnvNameAndCmdArgs() interface{} {
+	return &ListExecRecordByAppIDAndEnvNameAndCmdArgs{}
+}
+
+func newListExecRecordByAppIDAndEnvNameAndCmdResult() interface{} {
+	return &ListExecRecordByAppIDAndEnvNameAndCmdResult{}
+}
+
+type ListExecRecordByAppIDAndEnvNameAndCmdArgs struct {
+	Req *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdRequest
+}
+
+func (p *ListExecRecordByAppIDAndEnvNameAndCmdArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in ListExecRecordByAppIDAndEnvNameAndCmdArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ListExecRecordByAppIDAndEnvNameAndCmdArgs) Unmarshal(in []byte) error {
+	msg := new(nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ListExecRecordByAppIDAndEnvNameAndCmdArgs_Req_DEFAULT *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdRequest
+
+func (p *ListExecRecordByAppIDAndEnvNameAndCmdArgs) GetReq() *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdRequest {
+	if !p.IsSetReq() {
+		return ListExecRecordByAppIDAndEnvNameAndCmdArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ListExecRecordByAppIDAndEnvNameAndCmdArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type ListExecRecordByAppIDAndEnvNameAndCmdResult struct {
+	Success *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdResponse
+}
+
+var ListExecRecordByAppIDAndEnvNameAndCmdResult_Success_DEFAULT *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdResponse
+
+func (p *ListExecRecordByAppIDAndEnvNameAndCmdResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in ListExecRecordByAppIDAndEnvNameAndCmdResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ListExecRecordByAppIDAndEnvNameAndCmdResult) Unmarshal(in []byte) error {
+	msg := new(nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ListExecRecordByAppIDAndEnvNameAndCmdResult) GetSuccess() *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdResponse {
+	if !p.IsSetSuccess() {
+		return ListExecRecordByAppIDAndEnvNameAndCmdResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ListExecRecordByAppIDAndEnvNameAndCmdResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdResponse)
+}
+
+func (p *ListExecRecordByAppIDAndEnvNameAndCmdResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -270,6 +374,16 @@ func (p *kClient) GetExecRecord(ctx context.Context, Req *nika_operator.GetExecR
 	_args.Req = Req
 	var _result GetExecRecordResult
 	if err = p.c.Call(ctx, "GetExecRecord", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ListExecRecordByAppIDAndEnvNameAndCmd(ctx context.Context, Req *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdRequest) (r *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdResponse, err error) {
+	var _args ListExecRecordByAppIDAndEnvNameAndCmdArgs
+	_args.Req = Req
+	var _result ListExecRecordByAppIDAndEnvNameAndCmdResult
+	if err = p.c.Call(ctx, "ListExecRecordByAppIDAndEnvNameAndCmd", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

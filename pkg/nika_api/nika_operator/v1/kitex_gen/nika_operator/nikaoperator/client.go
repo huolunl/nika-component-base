@@ -13,6 +13,7 @@ import (
 type Client interface {
 	Exec(ctx context.Context, Req *nika_operator.ExecRequest, callOptions ...callopt.Option) (r *nika_operator.ExecResponse, err error)
 	GetExecRecord(ctx context.Context, Req *nika_operator.GetExecRecordRequest, callOptions ...callopt.Option) (r *nika_operator.GetExecRecordResponse, err error)
+	ListExecRecordByAppIDAndEnvNameAndCmd(ctx context.Context, Req *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdRequest, callOptions ...callopt.Option) (r *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -52,4 +53,9 @@ func (p *kNikaOperatorClient) Exec(ctx context.Context, Req *nika_operator.ExecR
 func (p *kNikaOperatorClient) GetExecRecord(ctx context.Context, Req *nika_operator.GetExecRecordRequest, callOptions ...callopt.Option) (r *nika_operator.GetExecRecordResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetExecRecord(ctx, Req)
+}
+
+func (p *kNikaOperatorClient) ListExecRecordByAppIDAndEnvNameAndCmd(ctx context.Context, Req *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdRequest, callOptions ...callopt.Option) (r *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ListExecRecordByAppIDAndEnvNameAndCmd(ctx, Req)
 }
