@@ -58,8 +58,8 @@ message ListExecRecordByAppIDAndEnvNameAndCmdRequest{
   uint64 ID = 1;
   string EnvName = 2;
   string Cmd = 3;
-  int32 offset = 4;
-  int32 limit = 5;
+  int64 offset = 4;
+  int64 limit = 5;
 
 }
 message ListExecRecordByAppIDAndEnvNameAndCmdResponse {
