@@ -15,6 +15,12 @@ type Client interface {
 	UpdateApplication(ctx context.Context, Req *nika_application.UpdateApplicationRequest, callOptions ...callopt.Option) (r *nika_application.UpdateApplicationResponse, err error)
 	GetApplication(ctx context.Context, Req *nika_application.GetApplicationRequest, callOptions ...callopt.Option) (r *nika_application.GetApplicationResponse, err error)
 	ListApplication(ctx context.Context, Req *nika_application.ListApplicationRequest, callOptions ...callopt.Option) (r *nika_application.ListApplicationResponse, err error)
+	DeleteApplication(ctx context.Context, Req *nika_application.GetApplicationRequest, callOptions ...callopt.Option) (r *nika_application.UpdateApplicationResponse, err error)
+	CreateProject(ctx context.Context, Req *nika_application.CreateProjectRequest, callOptions ...callopt.Option) (r *nika_application.Project, err error)
+	UpdateProject(ctx context.Context, Req *nika_application.Project, callOptions ...callopt.Option) (r *nika_application.Project, err error)
+	GetProject(ctx context.Context, Req *nika_application.GetProjectRequest, callOptions ...callopt.Option) (r *nika_application.Project, err error)
+	ListProject(ctx context.Context, Req *nika_application.ListProjectRequest, callOptions ...callopt.Option) (r *nika_application.Projects, err error)
+	DeleteProject(ctx context.Context, Req *nika_application.GetProjectRequest, callOptions ...callopt.Option) (r *nika_application.UpdateApplicationResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -64,4 +70,34 @@ func (p *kNikaApplicationClient) GetApplication(ctx context.Context, Req *nika_a
 func (p *kNikaApplicationClient) ListApplication(ctx context.Context, Req *nika_application.ListApplicationRequest, callOptions ...callopt.Option) (r *nika_application.ListApplicationResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ListApplication(ctx, Req)
+}
+
+func (p *kNikaApplicationClient) DeleteApplication(ctx context.Context, Req *nika_application.GetApplicationRequest, callOptions ...callopt.Option) (r *nika_application.UpdateApplicationResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DeleteApplication(ctx, Req)
+}
+
+func (p *kNikaApplicationClient) CreateProject(ctx context.Context, Req *nika_application.CreateProjectRequest, callOptions ...callopt.Option) (r *nika_application.Project, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.CreateProject(ctx, Req)
+}
+
+func (p *kNikaApplicationClient) UpdateProject(ctx context.Context, Req *nika_application.Project, callOptions ...callopt.Option) (r *nika_application.Project, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UpdateProject(ctx, Req)
+}
+
+func (p *kNikaApplicationClient) GetProject(ctx context.Context, Req *nika_application.GetProjectRequest, callOptions ...callopt.Option) (r *nika_application.Project, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetProject(ctx, Req)
+}
+
+func (p *kNikaApplicationClient) ListProject(ctx context.Context, Req *nika_application.ListProjectRequest, callOptions ...callopt.Option) (r *nika_application.Projects, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ListProject(ctx, Req)
+}
+
+func (p *kNikaApplicationClient) DeleteProject(ctx context.Context, Req *nika_application.GetProjectRequest, callOptions ...callopt.Option) (r *nika_application.UpdateApplicationResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DeleteProject(ctx, Req)
 }

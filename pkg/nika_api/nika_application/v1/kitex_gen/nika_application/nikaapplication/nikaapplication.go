@@ -26,6 +26,12 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"UpdateApplication": kitex.NewMethodInfo(updateApplicationHandler, newUpdateApplicationArgs, newUpdateApplicationResult, false),
 		"GetApplication":    kitex.NewMethodInfo(getApplicationHandler, newGetApplicationArgs, newGetApplicationResult, false),
 		"ListApplication":   kitex.NewMethodInfo(listApplicationHandler, newListApplicationArgs, newListApplicationResult, false),
+		"DeleteApplication": kitex.NewMethodInfo(deleteApplicationHandler, newDeleteApplicationArgs, newDeleteApplicationResult, false),
+		"CreateProject":     kitex.NewMethodInfo(createProjectHandler, newCreateProjectArgs, newCreateProjectResult, false),
+		"UpdateProject":     kitex.NewMethodInfo(updateProjectHandler, newUpdateProjectArgs, newUpdateProjectResult, false),
+		"GetProject":        kitex.NewMethodInfo(getProjectHandler, newGetProjectArgs, newGetProjectResult, false),
+		"ListProject":       kitex.NewMethodInfo(listProjectHandler, newListProjectArgs, newListProjectResult, false),
+		"DeleteProject":     kitex.NewMethodInfo(deleteProjectHandler, newDeleteProjectArgs, newDeleteProjectResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "",
@@ -453,6 +459,624 @@ func (p *ListApplicationResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
+func deleteApplicationHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_application.GetApplicationRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_application.NikaApplication).DeleteApplication(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *DeleteApplicationArgs:
+		success, err := handler.(nika_application.NikaApplication).DeleteApplication(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*DeleteApplicationResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newDeleteApplicationArgs() interface{} {
+	return &DeleteApplicationArgs{}
+}
+
+func newDeleteApplicationResult() interface{} {
+	return &DeleteApplicationResult{}
+}
+
+type DeleteApplicationArgs struct {
+	Req *nika_application.GetApplicationRequest
+}
+
+func (p *DeleteApplicationArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in DeleteApplicationArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *DeleteApplicationArgs) Unmarshal(in []byte) error {
+	msg := new(nika_application.GetApplicationRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var DeleteApplicationArgs_Req_DEFAULT *nika_application.GetApplicationRequest
+
+func (p *DeleteApplicationArgs) GetReq() *nika_application.GetApplicationRequest {
+	if !p.IsSetReq() {
+		return DeleteApplicationArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *DeleteApplicationArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type DeleteApplicationResult struct {
+	Success *nika_application.UpdateApplicationResponse
+}
+
+var DeleteApplicationResult_Success_DEFAULT *nika_application.UpdateApplicationResponse
+
+func (p *DeleteApplicationResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in DeleteApplicationResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *DeleteApplicationResult) Unmarshal(in []byte) error {
+	msg := new(nika_application.UpdateApplicationResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *DeleteApplicationResult) GetSuccess() *nika_application.UpdateApplicationResponse {
+	if !p.IsSetSuccess() {
+		return DeleteApplicationResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *DeleteApplicationResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_application.UpdateApplicationResponse)
+}
+
+func (p *DeleteApplicationResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func createProjectHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_application.CreateProjectRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_application.NikaApplication).CreateProject(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *CreateProjectArgs:
+		success, err := handler.(nika_application.NikaApplication).CreateProject(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*CreateProjectResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newCreateProjectArgs() interface{} {
+	return &CreateProjectArgs{}
+}
+
+func newCreateProjectResult() interface{} {
+	return &CreateProjectResult{}
+}
+
+type CreateProjectArgs struct {
+	Req *nika_application.CreateProjectRequest
+}
+
+func (p *CreateProjectArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in CreateProjectArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *CreateProjectArgs) Unmarshal(in []byte) error {
+	msg := new(nika_application.CreateProjectRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var CreateProjectArgs_Req_DEFAULT *nika_application.CreateProjectRequest
+
+func (p *CreateProjectArgs) GetReq() *nika_application.CreateProjectRequest {
+	if !p.IsSetReq() {
+		return CreateProjectArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *CreateProjectArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type CreateProjectResult struct {
+	Success *nika_application.Project
+}
+
+var CreateProjectResult_Success_DEFAULT *nika_application.Project
+
+func (p *CreateProjectResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in CreateProjectResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *CreateProjectResult) Unmarshal(in []byte) error {
+	msg := new(nika_application.Project)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *CreateProjectResult) GetSuccess() *nika_application.Project {
+	if !p.IsSetSuccess() {
+		return CreateProjectResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *CreateProjectResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_application.Project)
+}
+
+func (p *CreateProjectResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func updateProjectHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_application.Project)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_application.NikaApplication).UpdateProject(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *UpdateProjectArgs:
+		success, err := handler.(nika_application.NikaApplication).UpdateProject(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UpdateProjectResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newUpdateProjectArgs() interface{} {
+	return &UpdateProjectArgs{}
+}
+
+func newUpdateProjectResult() interface{} {
+	return &UpdateProjectResult{}
+}
+
+type UpdateProjectArgs struct {
+	Req *nika_application.Project
+}
+
+func (p *UpdateProjectArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in UpdateProjectArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UpdateProjectArgs) Unmarshal(in []byte) error {
+	msg := new(nika_application.Project)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UpdateProjectArgs_Req_DEFAULT *nika_application.Project
+
+func (p *UpdateProjectArgs) GetReq() *nika_application.Project {
+	if !p.IsSetReq() {
+		return UpdateProjectArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UpdateProjectArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type UpdateProjectResult struct {
+	Success *nika_application.Project
+}
+
+var UpdateProjectResult_Success_DEFAULT *nika_application.Project
+
+func (p *UpdateProjectResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in UpdateProjectResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UpdateProjectResult) Unmarshal(in []byte) error {
+	msg := new(nika_application.Project)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UpdateProjectResult) GetSuccess() *nika_application.Project {
+	if !p.IsSetSuccess() {
+		return UpdateProjectResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UpdateProjectResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_application.Project)
+}
+
+func (p *UpdateProjectResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func getProjectHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_application.GetProjectRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_application.NikaApplication).GetProject(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *GetProjectArgs:
+		success, err := handler.(nika_application.NikaApplication).GetProject(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*GetProjectResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newGetProjectArgs() interface{} {
+	return &GetProjectArgs{}
+}
+
+func newGetProjectResult() interface{} {
+	return &GetProjectResult{}
+}
+
+type GetProjectArgs struct {
+	Req *nika_application.GetProjectRequest
+}
+
+func (p *GetProjectArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in GetProjectArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *GetProjectArgs) Unmarshal(in []byte) error {
+	msg := new(nika_application.GetProjectRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var GetProjectArgs_Req_DEFAULT *nika_application.GetProjectRequest
+
+func (p *GetProjectArgs) GetReq() *nika_application.GetProjectRequest {
+	if !p.IsSetReq() {
+		return GetProjectArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *GetProjectArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type GetProjectResult struct {
+	Success *nika_application.Project
+}
+
+var GetProjectResult_Success_DEFAULT *nika_application.Project
+
+func (p *GetProjectResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in GetProjectResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *GetProjectResult) Unmarshal(in []byte) error {
+	msg := new(nika_application.Project)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *GetProjectResult) GetSuccess() *nika_application.Project {
+	if !p.IsSetSuccess() {
+		return GetProjectResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *GetProjectResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_application.Project)
+}
+
+func (p *GetProjectResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func listProjectHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_application.ListProjectRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_application.NikaApplication).ListProject(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *ListProjectArgs:
+		success, err := handler.(nika_application.NikaApplication).ListProject(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ListProjectResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newListProjectArgs() interface{} {
+	return &ListProjectArgs{}
+}
+
+func newListProjectResult() interface{} {
+	return &ListProjectResult{}
+}
+
+type ListProjectArgs struct {
+	Req *nika_application.ListProjectRequest
+}
+
+func (p *ListProjectArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in ListProjectArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ListProjectArgs) Unmarshal(in []byte) error {
+	msg := new(nika_application.ListProjectRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ListProjectArgs_Req_DEFAULT *nika_application.ListProjectRequest
+
+func (p *ListProjectArgs) GetReq() *nika_application.ListProjectRequest {
+	if !p.IsSetReq() {
+		return ListProjectArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ListProjectArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type ListProjectResult struct {
+	Success *nika_application.Projects
+}
+
+var ListProjectResult_Success_DEFAULT *nika_application.Projects
+
+func (p *ListProjectResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in ListProjectResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ListProjectResult) Unmarshal(in []byte) error {
+	msg := new(nika_application.Projects)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ListProjectResult) GetSuccess() *nika_application.Projects {
+	if !p.IsSetSuccess() {
+		return ListProjectResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ListProjectResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_application.Projects)
+}
+
+func (p *ListProjectResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func deleteProjectHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_application.GetProjectRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_application.NikaApplication).DeleteProject(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *DeleteProjectArgs:
+		success, err := handler.(nika_application.NikaApplication).DeleteProject(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*DeleteProjectResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newDeleteProjectArgs() interface{} {
+	return &DeleteProjectArgs{}
+}
+
+func newDeleteProjectResult() interface{} {
+	return &DeleteProjectResult{}
+}
+
+type DeleteProjectArgs struct {
+	Req *nika_application.GetProjectRequest
+}
+
+func (p *DeleteProjectArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in DeleteProjectArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *DeleteProjectArgs) Unmarshal(in []byte) error {
+	msg := new(nika_application.GetProjectRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var DeleteProjectArgs_Req_DEFAULT *nika_application.GetProjectRequest
+
+func (p *DeleteProjectArgs) GetReq() *nika_application.GetProjectRequest {
+	if !p.IsSetReq() {
+		return DeleteProjectArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *DeleteProjectArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type DeleteProjectResult struct {
+	Success *nika_application.UpdateApplicationResponse
+}
+
+var DeleteProjectResult_Success_DEFAULT *nika_application.UpdateApplicationResponse
+
+func (p *DeleteProjectResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in DeleteProjectResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *DeleteProjectResult) Unmarshal(in []byte) error {
+	msg := new(nika_application.UpdateApplicationResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *DeleteProjectResult) GetSuccess() *nika_application.UpdateApplicationResponse {
+	if !p.IsSetSuccess() {
+		return DeleteProjectResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *DeleteProjectResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_application.UpdateApplicationResponse)
+}
+
+func (p *DeleteProjectResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -498,6 +1122,66 @@ func (p *kClient) ListApplication(ctx context.Context, Req *nika_application.Lis
 	_args.Req = Req
 	var _result ListApplicationResult
 	if err = p.c.Call(ctx, "ListApplication", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DeleteApplication(ctx context.Context, Req *nika_application.GetApplicationRequest) (r *nika_application.UpdateApplicationResponse, err error) {
+	var _args DeleteApplicationArgs
+	_args.Req = Req
+	var _result DeleteApplicationResult
+	if err = p.c.Call(ctx, "DeleteApplication", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) CreateProject(ctx context.Context, Req *nika_application.CreateProjectRequest) (r *nika_application.Project, err error) {
+	var _args CreateProjectArgs
+	_args.Req = Req
+	var _result CreateProjectResult
+	if err = p.c.Call(ctx, "CreateProject", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UpdateProject(ctx context.Context, Req *nika_application.Project) (r *nika_application.Project, err error) {
+	var _args UpdateProjectArgs
+	_args.Req = Req
+	var _result UpdateProjectResult
+	if err = p.c.Call(ctx, "UpdateProject", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetProject(ctx context.Context, Req *nika_application.GetProjectRequest) (r *nika_application.Project, err error) {
+	var _args GetProjectArgs
+	_args.Req = Req
+	var _result GetProjectResult
+	if err = p.c.Call(ctx, "GetProject", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ListProject(ctx context.Context, Req *nika_application.ListProjectRequest) (r *nika_application.Projects, err error) {
+	var _args ListProjectArgs
+	_args.Req = Req
+	var _result ListProjectResult
+	if err = p.c.Call(ctx, "ListProject", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DeleteProject(ctx context.Context, Req *nika_application.GetProjectRequest) (r *nika_application.UpdateApplicationResponse, err error) {
+	var _args DeleteProjectArgs
+	_args.Req = Req
+	var _result DeleteProjectResult
+	if err = p.c.Call(ctx, "DeleteProject", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
