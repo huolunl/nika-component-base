@@ -19,3 +19,7 @@ cluster:
 .PHONY: operator
 operator:
 	@ cd pkg/nika_api/nika_operator/v1/ && $(kitex) -module github.com/huolunl/nika-component-base -type protobuf nika_operator.proto
+
+.PHONY: chart
+chart:
+	@ cd pkg/nika_api/nika_chartmuseum/v1/ && $(kitex) -module github.com/huolunl/nika-component-base -type protobuf nika_chartmuseum.proto

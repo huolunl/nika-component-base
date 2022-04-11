@@ -1,0 +1,123 @@
+syntax = "proto3";
+option go_package = "nika_chartmuseum";
+
+service ChartService {
+  rpc ListChart (ListChartRequest) returns (ListChartResponse) {}
+  rpc DeleteChart (DeleteChartRequest) returns (DeleteChartResponse) {}
+  rpc UploadProvenanceFile (UploadProvenanceFileRequest) returns (UploadProvenanceFileResponse) {}
+  rpc GetChartByName (GetChartByNameRequest) returns (GetChartByNameResponse) {}
+  rpc PageChartList (PageChartListRequest) returns (PageChartListResponse) {}
+  rpc UploadChart (UploadChartRequest) returns (UploadChartResponse) {}
+  rpc DescribeChartVersion (DescribeChartVersionRequest) returns (DescribeChartVersionResponse) {}
+  rpc CheckChartIsExist (CheckChartIsExistRequest) returns (CheckChartIsExistResponse) {}
+  rpc CheckChartVersionIsExist (CheckChartVersionIsExistRequest) returns (CheckChartVersionIsExistResponse) {}
+}
+
+message DeleteChartRequest {
+  string name = 1;
+  string version = 2;
+}
+
+message DeleteChartResponse {
+  string message = 1;
+}
+
+message UploadProvenanceFileRequest {
+  string file_name = 1;
+  bytes data = 2;
+}
+
+message UploadProvenanceFileResponse {
+  string message = 1;
+}
+
+message GetChartByNameRequest {
+  string name = 1;
+}
+
+message GetChartByNameResponse {
+  repeated Chart charts = 1;
+}
+
+message PageChartListRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+message PageChartListResponse {
+  map<string, Charts> charts_map = 1;
+}
+
+message UploadChartRequest {
+  string file_name = 1;
+  bytes data = 2;
+}
+
+message UploadChartResponse {
+  string message = 1;
+}
+
+message DescribeChartVersionRequest {
+  string name = 1;
+  string version = 2;
+}
+
+message DescribeChartVersionResponse {
+  string name = 1;
+  string version = 2;
+  string description = 3;
+  string app_version = 4;
+  string type = 5;
+  repeated string urls = 6;
+  string created = 7;
+  string digest = 8;
+}
+
+message CheckChartIsExistRequest {
+  string name = 1;
+}
+
+message CheckChartIsExistResponse {
+  int32 code = 1;
+}
+
+message CheckChartVersionIsExistRequest {
+  string name = 1;
+  string version = 2;
+}
+
+message CheckChartVersionIsExistResponse {
+  int32 code = 1;
+}
+
+message ListChartRequest {
+
+}
+
+message ListChartResponse {
+  map<string, Charts> charts_map = 1;
+}
+
+message Charts {
+  repeated Chart charts = 1;
+}
+
+message Chart {
+  string name = 1;
+  string home = 2;
+  repeated string sources = 3;
+  string version = 4;
+  string description = 5;
+  repeated Maintainers maintainers = 6;
+  string engine = 7;
+  string icon = 8;
+  repeated string urls = 9;
+  string created = 10;
+  string digest = 11;
+}
+
+message Maintainers {
+  string name = 1;
+  string email = 2;
+}
+
