@@ -83,7 +83,7 @@ message ListProjectRequest{
   int64 limit = 4;
 }
 message PatchEnvRequest {
-    Environment Environment =1 ;
+    repeated Environment Environments =1 ;
     uint64 ID = 2;
 }
 service NikaApplication{
