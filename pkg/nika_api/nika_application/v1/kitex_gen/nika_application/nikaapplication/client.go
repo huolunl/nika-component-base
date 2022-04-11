@@ -16,6 +16,7 @@ type Client interface {
 	GetApplication(ctx context.Context, Req *nika_application.GetApplicationRequest, callOptions ...callopt.Option) (r *nika_application.GetApplicationResponse, err error)
 	ListApplication(ctx context.Context, Req *nika_application.ListApplicationRequest, callOptions ...callopt.Option) (r *nika_application.ListApplicationResponse, err error)
 	DeleteApplication(ctx context.Context, Req *nika_application.GetApplicationRequest, callOptions ...callopt.Option) (r *nika_application.UpdateApplicationResponse, err error)
+	PatchEnv(ctx context.Context, Req *nika_application.PatchEnvRequest, callOptions ...callopt.Option) (r *nika_application.GetApplicationResponse, err error)
 	CreateProject(ctx context.Context, Req *nika_application.CreateProjectRequest, callOptions ...callopt.Option) (r *nika_application.Project, err error)
 	UpdateProject(ctx context.Context, Req *nika_application.Project, callOptions ...callopt.Option) (r *nika_application.Project, err error)
 	GetProject(ctx context.Context, Req *nika_application.GetProjectRequest, callOptions ...callopt.Option) (r *nika_application.Project, err error)
@@ -75,6 +76,11 @@ func (p *kNikaApplicationClient) ListApplication(ctx context.Context, Req *nika_
 func (p *kNikaApplicationClient) DeleteApplication(ctx context.Context, Req *nika_application.GetApplicationRequest, callOptions ...callopt.Option) (r *nika_application.UpdateApplicationResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DeleteApplication(ctx, Req)
+}
+
+func (p *kNikaApplicationClient) PatchEnv(ctx context.Context, Req *nika_application.PatchEnvRequest, callOptions ...callopt.Option) (r *nika_application.GetApplicationResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.PatchEnv(ctx, Req)
 }
 
 func (p *kNikaApplicationClient) CreateProject(ctx context.Context, Req *nika_application.CreateProjectRequest, callOptions ...callopt.Option) (r *nika_application.Project, err error) {

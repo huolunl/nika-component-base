@@ -27,6 +27,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"GetApplication":    kitex.NewMethodInfo(getApplicationHandler, newGetApplicationArgs, newGetApplicationResult, false),
 		"ListApplication":   kitex.NewMethodInfo(listApplicationHandler, newListApplicationArgs, newListApplicationResult, false),
 		"DeleteApplication": kitex.NewMethodInfo(deleteApplicationHandler, newDeleteApplicationArgs, newDeleteApplicationResult, false),
+		"PatchEnv":          kitex.NewMethodInfo(patchEnvHandler, newPatchEnvArgs, newPatchEnvResult, false),
 		"CreateProject":     kitex.NewMethodInfo(createProjectHandler, newCreateProjectArgs, newCreateProjectResult, false),
 		"UpdateProject":     kitex.NewMethodInfo(updateProjectHandler, newUpdateProjectArgs, newUpdateProjectResult, false),
 		"GetProject":        kitex.NewMethodInfo(getProjectHandler, newGetProjectArgs, newGetProjectResult, false),
@@ -559,6 +560,109 @@ func (p *DeleteApplicationResult) SetSuccess(x interface{}) {
 }
 
 func (p *DeleteApplicationResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func patchEnvHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_application.PatchEnvRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_application.NikaApplication).PatchEnv(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *PatchEnvArgs:
+		success, err := handler.(nika_application.NikaApplication).PatchEnv(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*PatchEnvResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newPatchEnvArgs() interface{} {
+	return &PatchEnvArgs{}
+}
+
+func newPatchEnvResult() interface{} {
+	return &PatchEnvResult{}
+}
+
+type PatchEnvArgs struct {
+	Req *nika_application.PatchEnvRequest
+}
+
+func (p *PatchEnvArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in PatchEnvArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *PatchEnvArgs) Unmarshal(in []byte) error {
+	msg := new(nika_application.PatchEnvRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var PatchEnvArgs_Req_DEFAULT *nika_application.PatchEnvRequest
+
+func (p *PatchEnvArgs) GetReq() *nika_application.PatchEnvRequest {
+	if !p.IsSetReq() {
+		return PatchEnvArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *PatchEnvArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type PatchEnvResult struct {
+	Success *nika_application.GetApplicationResponse
+}
+
+var PatchEnvResult_Success_DEFAULT *nika_application.GetApplicationResponse
+
+func (p *PatchEnvResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in PatchEnvResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *PatchEnvResult) Unmarshal(in []byte) error {
+	msg := new(nika_application.GetApplicationResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *PatchEnvResult) GetSuccess() *nika_application.GetApplicationResponse {
+	if !p.IsSetSuccess() {
+		return PatchEnvResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *PatchEnvResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_application.GetApplicationResponse)
+}
+
+func (p *PatchEnvResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
@@ -1132,6 +1236,16 @@ func (p *kClient) DeleteApplication(ctx context.Context, Req *nika_application.G
 	_args.Req = Req
 	var _result DeleteApplicationResult
 	if err = p.c.Call(ctx, "DeleteApplication", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) PatchEnv(ctx context.Context, Req *nika_application.PatchEnvRequest) (r *nika_application.GetApplicationResponse, err error) {
+	var _args PatchEnvArgs
+	_args.Req = Req
+	var _result PatchEnvResult
+	if err = p.c.Call(ctx, "PatchEnv", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

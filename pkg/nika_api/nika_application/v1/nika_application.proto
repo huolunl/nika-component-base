@@ -82,12 +82,19 @@ message ListProjectRequest{
   int64 offset = 3;
   int64 limit = 4;
 }
+message PatchEnvRequest {
+    Environment Environment =1 ;
+    uint64 ID = 2;
+}
 service NikaApplication{
   rpc CreateApplication(CreateApplicationRequest) returns (CreateApplicationResponse) {}
   rpc UpdateApplication(UpdateApplicationRequest) returns (UpdateApplicationResponse) {}
   rpc GetApplication(GetApplicationRequest) returns (GetApplicationResponse) {}
   rpc ListApplication(ListApplicationRequest) returns (ListApplicationResponse) {}
   rpc DeleteApplication(GetApplicationRequest) returns (UpdateApplicationResponse) {}
+  rpc PatchEnv(PatchEnvRequest) returns(GetApplicationResponse){}
+
+
 
   rpc CreateProject(CreateProjectRequest) returns (Project) {}
   rpc UpdateProject(Project) returns (Project) {}
