@@ -26,6 +26,7 @@ message GetClusterResponse{
   string name = 7;
   string createAt   = 8;
   string updatedAt   = 9;
+  uint64 ID = 10;
 }
 message ListAllClusterRequest {
 
