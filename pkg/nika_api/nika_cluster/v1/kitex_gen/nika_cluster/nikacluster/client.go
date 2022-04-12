@@ -13,6 +13,7 @@ import (
 type Client interface {
 	CreateCluster(ctx context.Context, Req *nika_cluster.CreateClusterRequest, callOptions ...callopt.Option) (r *nika_cluster.CreateClusterResponse, err error)
 	GetCluster(ctx context.Context, Req *nika_cluster.GetClusterRequest, callOptions ...callopt.Option) (r *nika_cluster.GetClusterResponse, err error)
+	ListAllCluster(ctx context.Context, Req *nika_cluster.ListAllClusterRequest, callOptions ...callopt.Option) (r *nika_cluster.ListAllClusterResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -52,4 +53,9 @@ func (p *kNikaClusterClient) CreateCluster(ctx context.Context, Req *nika_cluste
 func (p *kNikaClusterClient) GetCluster(ctx context.Context, Req *nika_cluster.GetClusterRequest, callOptions ...callopt.Option) (r *nika_cluster.GetClusterResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetCluster(ctx, Req)
+}
+
+func (p *kNikaClusterClient) ListAllCluster(ctx context.Context, Req *nika_cluster.ListAllClusterRequest, callOptions ...callopt.Option) (r *nika_cluster.ListAllClusterResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ListAllCluster(ctx, Req)
 }

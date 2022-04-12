@@ -27,9 +27,16 @@ message GetClusterResponse{
   string createAt   = 8;
   string updatedAt   = 9;
 }
+message ListAllClusterRequest {
+
+}
+message ListAllClusterResponse{
+  repeated GetClusterResponse clusters = 1;
+}
 
 
 service NikaCluster{
   rpc CreateCluster(CreateClusterRequest) returns (CreateClusterResponse) {}
   rpc GetCluster(GetClusterRequest) returns (GetClusterResponse) {}
+  rpc ListAllCluster(ListAllClusterRequest) returns (ListAllClusterResponse) {}
 }

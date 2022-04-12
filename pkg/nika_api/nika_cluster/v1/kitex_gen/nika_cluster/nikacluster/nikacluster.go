@@ -22,8 +22,9 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "NikaCluster"
 	handlerType := (*nika_cluster.NikaCluster)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"CreateCluster": kitex.NewMethodInfo(createClusterHandler, newCreateClusterArgs, newCreateClusterResult, false),
-		"GetCluster":    kitex.NewMethodInfo(getClusterHandler, newGetClusterArgs, newGetClusterResult, false),
+		"CreateCluster":  kitex.NewMethodInfo(createClusterHandler, newCreateClusterArgs, newCreateClusterResult, false),
+		"GetCluster":     kitex.NewMethodInfo(getClusterHandler, newGetClusterArgs, newGetClusterResult, false),
+		"ListAllCluster": kitex.NewMethodInfo(listAllClusterHandler, newListAllClusterArgs, newListAllClusterResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "",
@@ -245,6 +246,109 @@ func (p *GetClusterResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
+func listAllClusterHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_cluster.ListAllClusterRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_cluster.NikaCluster).ListAllCluster(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *ListAllClusterArgs:
+		success, err := handler.(nika_cluster.NikaCluster).ListAllCluster(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ListAllClusterResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newListAllClusterArgs() interface{} {
+	return &ListAllClusterArgs{}
+}
+
+func newListAllClusterResult() interface{} {
+	return &ListAllClusterResult{}
+}
+
+type ListAllClusterArgs struct {
+	Req *nika_cluster.ListAllClusterRequest
+}
+
+func (p *ListAllClusterArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in ListAllClusterArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ListAllClusterArgs) Unmarshal(in []byte) error {
+	msg := new(nika_cluster.ListAllClusterRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ListAllClusterArgs_Req_DEFAULT *nika_cluster.ListAllClusterRequest
+
+func (p *ListAllClusterArgs) GetReq() *nika_cluster.ListAllClusterRequest {
+	if !p.IsSetReq() {
+		return ListAllClusterArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ListAllClusterArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type ListAllClusterResult struct {
+	Success *nika_cluster.ListAllClusterResponse
+}
+
+var ListAllClusterResult_Success_DEFAULT *nika_cluster.ListAllClusterResponse
+
+func (p *ListAllClusterResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in ListAllClusterResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ListAllClusterResult) Unmarshal(in []byte) error {
+	msg := new(nika_cluster.ListAllClusterResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ListAllClusterResult) GetSuccess() *nika_cluster.ListAllClusterResponse {
+	if !p.IsSetSuccess() {
+		return ListAllClusterResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ListAllClusterResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_cluster.ListAllClusterResponse)
+}
+
+func (p *ListAllClusterResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -270,6 +374,16 @@ func (p *kClient) GetCluster(ctx context.Context, Req *nika_cluster.GetClusterRe
 	_args.Req = Req
 	var _result GetClusterResult
 	if err = p.c.Call(ctx, "GetCluster", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ListAllCluster(ctx context.Context, Req *nika_cluster.ListAllClusterRequest) (r *nika_cluster.ListAllClusterResponse, err error) {
+	var _args ListAllClusterArgs
+	_args.Req = Req
+	var _result ListAllClusterResult
+	if err = p.c.Call(ctx, "ListAllCluster", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
