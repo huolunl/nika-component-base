@@ -15,6 +15,7 @@ type Client interface {
 	DeleteChart(ctx context.Context, Req *nika_chartmuseum.DeleteChartRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.DeleteChartResponse, err error)
 	UploadProvenanceFile(ctx context.Context, Req *nika_chartmuseum.UploadProvenanceFileRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.UploadProvenanceFileResponse, err error)
 	GetChartByName(ctx context.Context, Req *nika_chartmuseum.GetChartByNameRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.GetChartByNameResponse, err error)
+	GetChartByNameAndVersion(ctx context.Context, Req *nika_chartmuseum.GetChartByNameAndVersionRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.GetChartByNameAndVersionResponse, err error)
 	PageChartList(ctx context.Context, Req *nika_chartmuseum.PageChartListRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.PageChartListResponse, err error)
 	UploadChart(ctx context.Context, Req *nika_chartmuseum.UploadChartRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.UploadChartResponse, err error)
 	DescribeChartVersion(ctx context.Context, Req *nika_chartmuseum.DescribeChartVersionRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.DescribeChartVersionResponse, err error)
@@ -69,6 +70,11 @@ func (p *kChartServiceClient) UploadProvenanceFile(ctx context.Context, Req *nik
 func (p *kChartServiceClient) GetChartByName(ctx context.Context, Req *nika_chartmuseum.GetChartByNameRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.GetChartByNameResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetChartByName(ctx, Req)
+}
+
+func (p *kChartServiceClient) GetChartByNameAndVersion(ctx context.Context, Req *nika_chartmuseum.GetChartByNameAndVersionRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.GetChartByNameAndVersionResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetChartByNameAndVersion(ctx, Req)
 }
 
 func (p *kChartServiceClient) PageChartList(ctx context.Context, Req *nika_chartmuseum.PageChartListRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.PageChartListResponse, err error) {

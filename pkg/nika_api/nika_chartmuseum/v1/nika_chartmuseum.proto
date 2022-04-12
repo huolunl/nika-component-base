@@ -6,6 +6,7 @@ service ChartService {
   rpc DeleteChart (DeleteChartRequest) returns (DeleteChartResponse) {}
   rpc UploadProvenanceFile (UploadProvenanceFileRequest) returns (UploadProvenanceFileResponse) {}
   rpc GetChartByName (GetChartByNameRequest) returns (GetChartByNameResponse) {}
+  rpc GetChartByNameAndVersion (GetChartByNameAndVersionRequest) returns (GetChartByNameAndVersionResponse) {}
   rpc PageChartList (PageChartListRequest) returns (PageChartListResponse) {}
   rpc UploadChart (UploadChartRequest) returns (UploadChartResponse) {}
   rpc DescribeChartVersion (DescribeChartVersionRequest) returns (DescribeChartVersionResponse) {}
@@ -36,7 +37,14 @@ message GetChartByNameRequest {
 }
 
 message GetChartByNameResponse {
-  repeated Chart charts = 1;
+}
+message GetChartByNameAndVersionRequest {
+  string name = 1;
+  string version = 2;
+}
+message GetChartByNameAndVersionResponse {
+  Chart chart = 1;
+
 }
 
 message PageChartListRequest {

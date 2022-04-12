@@ -26,6 +26,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"DeleteChart":              kitex.NewMethodInfo(deleteChartHandler, newDeleteChartArgs, newDeleteChartResult, false),
 		"UploadProvenanceFile":     kitex.NewMethodInfo(uploadProvenanceFileHandler, newUploadProvenanceFileArgs, newUploadProvenanceFileResult, false),
 		"GetChartByName":           kitex.NewMethodInfo(getChartByNameHandler, newGetChartByNameArgs, newGetChartByNameResult, false),
+		"GetChartByNameAndVersion": kitex.NewMethodInfo(getChartByNameAndVersionHandler, newGetChartByNameAndVersionArgs, newGetChartByNameAndVersionResult, false),
 		"PageChartList":            kitex.NewMethodInfo(pageChartListHandler, newPageChartListArgs, newPageChartListResult, false),
 		"UploadChart":              kitex.NewMethodInfo(uploadChartHandler, newUploadChartArgs, newUploadChartResult, false),
 		"DescribeChartVersion":     kitex.NewMethodInfo(describeChartVersionHandler, newDescribeChartVersionArgs, newDescribeChartVersionResult, false),
@@ -455,6 +456,109 @@ func (p *GetChartByNameResult) SetSuccess(x interface{}) {
 }
 
 func (p *GetChartByNameResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func getChartByNameAndVersionHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_chartmuseum.GetChartByNameAndVersionRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_chartmuseum.ChartService).GetChartByNameAndVersion(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *GetChartByNameAndVersionArgs:
+		success, err := handler.(nika_chartmuseum.ChartService).GetChartByNameAndVersion(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*GetChartByNameAndVersionResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newGetChartByNameAndVersionArgs() interface{} {
+	return &GetChartByNameAndVersionArgs{}
+}
+
+func newGetChartByNameAndVersionResult() interface{} {
+	return &GetChartByNameAndVersionResult{}
+}
+
+type GetChartByNameAndVersionArgs struct {
+	Req *nika_chartmuseum.GetChartByNameAndVersionRequest
+}
+
+func (p *GetChartByNameAndVersionArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in GetChartByNameAndVersionArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *GetChartByNameAndVersionArgs) Unmarshal(in []byte) error {
+	msg := new(nika_chartmuseum.GetChartByNameAndVersionRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var GetChartByNameAndVersionArgs_Req_DEFAULT *nika_chartmuseum.GetChartByNameAndVersionRequest
+
+func (p *GetChartByNameAndVersionArgs) GetReq() *nika_chartmuseum.GetChartByNameAndVersionRequest {
+	if !p.IsSetReq() {
+		return GetChartByNameAndVersionArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *GetChartByNameAndVersionArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type GetChartByNameAndVersionResult struct {
+	Success *nika_chartmuseum.GetChartByNameAndVersionResponse
+}
+
+var GetChartByNameAndVersionResult_Success_DEFAULT *nika_chartmuseum.GetChartByNameAndVersionResponse
+
+func (p *GetChartByNameAndVersionResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in GetChartByNameAndVersionResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *GetChartByNameAndVersionResult) Unmarshal(in []byte) error {
+	msg := new(nika_chartmuseum.GetChartByNameAndVersionResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *GetChartByNameAndVersionResult) GetSuccess() *nika_chartmuseum.GetChartByNameAndVersionResponse {
+	if !p.IsSetSuccess() {
+		return GetChartByNameAndVersionResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *GetChartByNameAndVersionResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_chartmuseum.GetChartByNameAndVersionResponse)
+}
+
+func (p *GetChartByNameAndVersionResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
@@ -1018,6 +1122,16 @@ func (p *kClient) GetChartByName(ctx context.Context, Req *nika_chartmuseum.GetC
 	_args.Req = Req
 	var _result GetChartByNameResult
 	if err = p.c.Call(ctx, "GetChartByName", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetChartByNameAndVersion(ctx context.Context, Req *nika_chartmuseum.GetChartByNameAndVersionRequest) (r *nika_chartmuseum.GetChartByNameAndVersionResponse, err error) {
+	var _args GetChartByNameAndVersionArgs
+	_args.Req = Req
+	var _result GetChartByNameAndVersionResult
+	if err = p.c.Call(ctx, "GetChartByNameAndVersion", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
