@@ -276,6 +276,8 @@ type GetChartByNameResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	Charts []*Chart `protobuf:"bytes,1,rep,name=charts,proto3" json:"charts,omitempty"`
 }
 
 func (x *GetChartByNameResponse) Reset() {
@@ -308,6 +310,13 @@ func (x *GetChartByNameResponse) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GetChartByNameResponse.ProtoReflect.Descriptor instead.
 func (*GetChartByNameResponse) Descriptor() ([]byte, []int) {
 	return file_nika_chartmuseum_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetChartByNameResponse) GetCharts() []*Chart {
+	if x != nil {
+		return x.Charts
+	}
+	return nil
 }
 
 type GetChartByNameAndVersionRequest struct {
@@ -1307,8 +1316,10 @@ var file_nika_chartmuseum_proto_rawDesc = []byte{
 	0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x2b, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x43, 0x68,
 	0x61, 0x72, 0x74, 0x42, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
 	0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
-	0x6e, 0x61, 0x6d, 0x65, 0x22, 0x18, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61, 0x72, 0x74,
-	0x42, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x4f,
+	0x6e, 0x61, 0x6d, 0x65, 0x22, 0x38, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61, 0x72, 0x74,
+	0x42, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1e,
+	0x0a, 0x06, 0x63, 0x68, 0x61, 0x72, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x06,
+	0x2e, 0x43, 0x68, 0x61, 0x72, 0x74, 0x52, 0x06, 0x63, 0x68, 0x61, 0x72, 0x74, 0x73, 0x22, 0x4f,
 	0x0a, 0x1f, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61, 0x72, 0x74, 0x42, 0x79, 0x4e, 0x61, 0x6d, 0x65,
 	0x41, 0x6e, 0x64, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
 	0x74, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
@@ -1510,38 +1521,39 @@ var file_nika_chartmuseum_proto_goTypes = []interface{}{
 	nil,                                      // 24: ListChartResponse.ChartsMapEntry
 }
 var file_nika_chartmuseum_proto_depIdxs = []int32{
-	21, // 0: GetChartByNameAndVersionResponse.chart:type_name -> Chart
-	23, // 1: PageChartListResponse.charts_map:type_name -> PageChartListResponse.ChartsMapEntry
-	24, // 2: ListChartResponse.charts_map:type_name -> ListChartResponse.ChartsMapEntry
-	21, // 3: Charts.charts:type_name -> Chart
-	22, // 4: Chart.maintainers:type_name -> Maintainers
-	20, // 5: PageChartListResponse.ChartsMapEntry.value:type_name -> Charts
-	20, // 6: ListChartResponse.ChartsMapEntry.value:type_name -> Charts
-	18, // 7: ChartService.ListChart:input_type -> ListChartRequest
-	0,  // 8: ChartService.DeleteChart:input_type -> DeleteChartRequest
-	2,  // 9: ChartService.UploadProvenanceFile:input_type -> UploadProvenanceFileRequest
-	4,  // 10: ChartService.GetChartByName:input_type -> GetChartByNameRequest
-	6,  // 11: ChartService.GetChartByNameAndVersion:input_type -> GetChartByNameAndVersionRequest
-	8,  // 12: ChartService.PageChartList:input_type -> PageChartListRequest
-	10, // 13: ChartService.UploadChart:input_type -> UploadChartRequest
-	12, // 14: ChartService.DescribeChartVersion:input_type -> DescribeChartVersionRequest
-	14, // 15: ChartService.CheckChartIsExist:input_type -> CheckChartIsExistRequest
-	16, // 16: ChartService.CheckChartVersionIsExist:input_type -> CheckChartVersionIsExistRequest
-	19, // 17: ChartService.ListChart:output_type -> ListChartResponse
-	1,  // 18: ChartService.DeleteChart:output_type -> DeleteChartResponse
-	3,  // 19: ChartService.UploadProvenanceFile:output_type -> UploadProvenanceFileResponse
-	5,  // 20: ChartService.GetChartByName:output_type -> GetChartByNameResponse
-	7,  // 21: ChartService.GetChartByNameAndVersion:output_type -> GetChartByNameAndVersionResponse
-	9,  // 22: ChartService.PageChartList:output_type -> PageChartListResponse
-	11, // 23: ChartService.UploadChart:output_type -> UploadChartResponse
-	13, // 24: ChartService.DescribeChartVersion:output_type -> DescribeChartVersionResponse
-	15, // 25: ChartService.CheckChartIsExist:output_type -> CheckChartIsExistResponse
-	17, // 26: ChartService.CheckChartVersionIsExist:output_type -> CheckChartVersionIsExistResponse
-	17, // [17:27] is the sub-list for method output_type
-	7,  // [7:17] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	21, // 0: GetChartByNameResponse.charts:type_name -> Chart
+	21, // 1: GetChartByNameAndVersionResponse.chart:type_name -> Chart
+	23, // 2: PageChartListResponse.charts_map:type_name -> PageChartListResponse.ChartsMapEntry
+	24, // 3: ListChartResponse.charts_map:type_name -> ListChartResponse.ChartsMapEntry
+	21, // 4: Charts.charts:type_name -> Chart
+	22, // 5: Chart.maintainers:type_name -> Maintainers
+	20, // 6: PageChartListResponse.ChartsMapEntry.value:type_name -> Charts
+	20, // 7: ListChartResponse.ChartsMapEntry.value:type_name -> Charts
+	18, // 8: ChartService.ListChart:input_type -> ListChartRequest
+	0,  // 9: ChartService.DeleteChart:input_type -> DeleteChartRequest
+	2,  // 10: ChartService.UploadProvenanceFile:input_type -> UploadProvenanceFileRequest
+	4,  // 11: ChartService.GetChartByName:input_type -> GetChartByNameRequest
+	6,  // 12: ChartService.GetChartByNameAndVersion:input_type -> GetChartByNameAndVersionRequest
+	8,  // 13: ChartService.PageChartList:input_type -> PageChartListRequest
+	10, // 14: ChartService.UploadChart:input_type -> UploadChartRequest
+	12, // 15: ChartService.DescribeChartVersion:input_type -> DescribeChartVersionRequest
+	14, // 16: ChartService.CheckChartIsExist:input_type -> CheckChartIsExistRequest
+	16, // 17: ChartService.CheckChartVersionIsExist:input_type -> CheckChartVersionIsExistRequest
+	19, // 18: ChartService.ListChart:output_type -> ListChartResponse
+	1,  // 19: ChartService.DeleteChart:output_type -> DeleteChartResponse
+	3,  // 20: ChartService.UploadProvenanceFile:output_type -> UploadProvenanceFileResponse
+	5,  // 21: ChartService.GetChartByName:output_type -> GetChartByNameResponse
+	7,  // 22: ChartService.GetChartByNameAndVersion:output_type -> GetChartByNameAndVersionResponse
+	9,  // 23: ChartService.PageChartList:output_type -> PageChartListResponse
+	11, // 24: ChartService.UploadChart:output_type -> UploadChartResponse
+	13, // 25: ChartService.DescribeChartVersion:output_type -> DescribeChartVersionResponse
+	15, // 26: ChartService.CheckChartIsExist:output_type -> CheckChartIsExistResponse
+	17, // 27: ChartService.CheckChartVersionIsExist:output_type -> CheckChartVersionIsExistResponse
+	18, // [18:28] is the sub-list for method output_type
+	8,  // [8:18] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_nika_chartmuseum_proto_init() }

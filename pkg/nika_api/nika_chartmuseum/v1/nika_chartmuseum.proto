@@ -37,6 +37,7 @@ message GetChartByNameRequest {
 }
 
 message GetChartByNameResponse {
+  repeated Chart charts = 1;
 }
 message GetChartByNameAndVersionRequest {
   string name = 1;
