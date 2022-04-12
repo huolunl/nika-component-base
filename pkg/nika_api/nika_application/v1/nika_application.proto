@@ -18,7 +18,7 @@ message CreateApplicationResponse{
   uint64 appID = 1;
 }
 
-message Chart {
+message AppChart {
    string Repository = 1;
    string URL = 2;
    string Name = 3;
@@ -29,7 +29,7 @@ message Environment {
   string Value=2;
    string Namespace =3;
    string Release=4;
-   Chart Chart=5;
+   AppChart Chart=5;
    string ValueTemplate=6;
    uint64 ClusterID = 7;
 }
