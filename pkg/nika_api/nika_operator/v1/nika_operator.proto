@@ -74,6 +74,10 @@ message ListKubernetesAPIObjectRequest{
   string CA = 5;
   string Kind = 6;
   string ApiVersion = 7;
+  repeated  Label labels = 8;
+}
+message Label{
+  map<string,string> label = 1;
 }
 
 message ListListKubernetesAPIObjectResponse{
