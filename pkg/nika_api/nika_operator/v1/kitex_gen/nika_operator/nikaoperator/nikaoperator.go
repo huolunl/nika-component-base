@@ -25,6 +25,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"Exec":                                  kitex.NewMethodInfo(execHandler, newExecArgs, newExecResult, false),
 		"GetExecRecord":                         kitex.NewMethodInfo(getExecRecordHandler, newGetExecRecordArgs, newGetExecRecordResult, false),
 		"ListExecRecordByAppIDAndEnvNameAndCmd": kitex.NewMethodInfo(listExecRecordByAppIDAndEnvNameAndCmdHandler, newListExecRecordByAppIDAndEnvNameAndCmdArgs, newListExecRecordByAppIDAndEnvNameAndCmdResult, false),
+		"ListKubernetesAPIObject":               kitex.NewMethodInfo(listKubernetesAPIObjectHandler, newListKubernetesAPIObjectArgs, newListKubernetesAPIObjectResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "",
@@ -349,6 +350,109 @@ func (p *ListExecRecordByAppIDAndEnvNameAndCmdResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
+func listKubernetesAPIObjectHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_operator.ListKubernetesAPIObjectRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_operator.NikaOperator).ListKubernetesAPIObject(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *ListKubernetesAPIObjectArgs:
+		success, err := handler.(nika_operator.NikaOperator).ListKubernetesAPIObject(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*ListKubernetesAPIObjectResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newListKubernetesAPIObjectArgs() interface{} {
+	return &ListKubernetesAPIObjectArgs{}
+}
+
+func newListKubernetesAPIObjectResult() interface{} {
+	return &ListKubernetesAPIObjectResult{}
+}
+
+type ListKubernetesAPIObjectArgs struct {
+	Req *nika_operator.ListKubernetesAPIObjectRequest
+}
+
+func (p *ListKubernetesAPIObjectArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in ListKubernetesAPIObjectArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *ListKubernetesAPIObjectArgs) Unmarshal(in []byte) error {
+	msg := new(nika_operator.ListKubernetesAPIObjectRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var ListKubernetesAPIObjectArgs_Req_DEFAULT *nika_operator.ListKubernetesAPIObjectRequest
+
+func (p *ListKubernetesAPIObjectArgs) GetReq() *nika_operator.ListKubernetesAPIObjectRequest {
+	if !p.IsSetReq() {
+		return ListKubernetesAPIObjectArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *ListKubernetesAPIObjectArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type ListKubernetesAPIObjectResult struct {
+	Success *nika_operator.ListListKubernetesAPIObjectResponse
+}
+
+var ListKubernetesAPIObjectResult_Success_DEFAULT *nika_operator.ListListKubernetesAPIObjectResponse
+
+func (p *ListKubernetesAPIObjectResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in ListKubernetesAPIObjectResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *ListKubernetesAPIObjectResult) Unmarshal(in []byte) error {
+	msg := new(nika_operator.ListListKubernetesAPIObjectResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *ListKubernetesAPIObjectResult) GetSuccess() *nika_operator.ListListKubernetesAPIObjectResponse {
+	if !p.IsSetSuccess() {
+		return ListKubernetesAPIObjectResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *ListKubernetesAPIObjectResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_operator.ListListKubernetesAPIObjectResponse)
+}
+
+func (p *ListKubernetesAPIObjectResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -384,6 +488,16 @@ func (p *kClient) ListExecRecordByAppIDAndEnvNameAndCmd(ctx context.Context, Req
 	_args.Req = Req
 	var _result ListExecRecordByAppIDAndEnvNameAndCmdResult
 	if err = p.c.Call(ctx, "ListExecRecordByAppIDAndEnvNameAndCmd", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ListKubernetesAPIObject(ctx context.Context, Req *nika_operator.ListKubernetesAPIObjectRequest) (r *nika_operator.ListListKubernetesAPIObjectResponse, err error) {
+	var _args ListKubernetesAPIObjectArgs
+	_args.Req = Req
+	var _result ListKubernetesAPIObjectResult
+	if err = p.c.Call(ctx, "ListKubernetesAPIObject", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

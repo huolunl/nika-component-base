@@ -66,8 +66,27 @@ message ListExecRecordByAppIDAndEnvNameAndCmdRequest{
 message ListExecRecordByAppIDAndEnvNameAndCmdResponse {
   repeated GetExecRecordResponse records = 1;
 }
+
+message ListKubernetesAPIObjectRequest{
+  string Namespace = 1;
+  string ApiServer = 3;
+  string Token = 4;
+  string CA = 5;
+  string Kind = 6;
+  string ApiVersion = 7;
+}
+
+message ListListKubernetesAPIObjectResponse{
+  bytes resource = 1;
+  string Kind = 2;
+  string ApiVersion = 3;
+
+}
+
 service NikaOperator{
   rpc Exec(ExecRequest) returns (ExecResponse){}
   rpc GetExecRecord(GetExecRecordRequest) returns (GetExecRecordResponse){}
   rpc ListExecRecordByAppIDAndEnvNameAndCmd(ListExecRecordByAppIDAndEnvNameAndCmdRequest) returns (ListExecRecordByAppIDAndEnvNameAndCmdResponse){}
+
+  rpc ListKubernetesAPIObject(ListKubernetesAPIObjectRequest) returns(ListListKubernetesAPIObjectResponse){}
 }

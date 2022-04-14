@@ -14,6 +14,7 @@ type Client interface {
 	Exec(ctx context.Context, Req *nika_operator.ExecRequest, callOptions ...callopt.Option) (r *nika_operator.ExecResponse, err error)
 	GetExecRecord(ctx context.Context, Req *nika_operator.GetExecRecordRequest, callOptions ...callopt.Option) (r *nika_operator.GetExecRecordResponse, err error)
 	ListExecRecordByAppIDAndEnvNameAndCmd(ctx context.Context, Req *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdRequest, callOptions ...callopt.Option) (r *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdResponse, err error)
+	ListKubernetesAPIObject(ctx context.Context, Req *nika_operator.ListKubernetesAPIObjectRequest, callOptions ...callopt.Option) (r *nika_operator.ListListKubernetesAPIObjectResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -58,4 +59,9 @@ func (p *kNikaOperatorClient) GetExecRecord(ctx context.Context, Req *nika_opera
 func (p *kNikaOperatorClient) ListExecRecordByAppIDAndEnvNameAndCmd(ctx context.Context, Req *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdRequest, callOptions ...callopt.Option) (r *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ListExecRecordByAppIDAndEnvNameAndCmd(ctx, Req)
+}
+
+func (p *kNikaOperatorClient) ListKubernetesAPIObject(ctx context.Context, Req *nika_operator.ListKubernetesAPIObjectRequest, callOptions ...callopt.Option) (r *nika_operator.ListListKubernetesAPIObjectResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ListKubernetesAPIObject(ctx, Req)
 }
