@@ -26,6 +26,9 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"GetExecRecord":                         kitex.NewMethodInfo(getExecRecordHandler, newGetExecRecordArgs, newGetExecRecordResult, false),
 		"ListExecRecordByAppIDAndEnvNameAndCmd": kitex.NewMethodInfo(listExecRecordByAppIDAndEnvNameAndCmdHandler, newListExecRecordByAppIDAndEnvNameAndCmdArgs, newListExecRecordByAppIDAndEnvNameAndCmdResult, false),
 		"ListKubernetesAPIObject":               kitex.NewMethodInfo(listKubernetesAPIObjectHandler, newListKubernetesAPIObjectArgs, newListKubernetesAPIObjectResult, false),
+		"GetRelease":                            kitex.NewMethodInfo(getReleaseHandler, newGetReleaseArgs, newGetReleaseResult, false),
+		"GetHistory":                            kitex.NewMethodInfo(getHistoryHandler, newGetHistoryArgs, newGetHistoryResult, false),
+		"RollBack":                              kitex.NewMethodInfo(rollBackHandler, newRollBackArgs, newRollBackResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "",
@@ -453,6 +456,315 @@ func (p *ListKubernetesAPIObjectResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
+func getReleaseHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_operator.GetReleaseRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_operator.NikaOperator).GetRelease(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *GetReleaseArgs:
+		success, err := handler.(nika_operator.NikaOperator).GetRelease(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*GetReleaseResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newGetReleaseArgs() interface{} {
+	return &GetReleaseArgs{}
+}
+
+func newGetReleaseResult() interface{} {
+	return &GetReleaseResult{}
+}
+
+type GetReleaseArgs struct {
+	Req *nika_operator.GetReleaseRequest
+}
+
+func (p *GetReleaseArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in GetReleaseArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *GetReleaseArgs) Unmarshal(in []byte) error {
+	msg := new(nika_operator.GetReleaseRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var GetReleaseArgs_Req_DEFAULT *nika_operator.GetReleaseRequest
+
+func (p *GetReleaseArgs) GetReq() *nika_operator.GetReleaseRequest {
+	if !p.IsSetReq() {
+		return GetReleaseArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *GetReleaseArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type GetReleaseResult struct {
+	Success *nika_operator.Release
+}
+
+var GetReleaseResult_Success_DEFAULT *nika_operator.Release
+
+func (p *GetReleaseResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in GetReleaseResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *GetReleaseResult) Unmarshal(in []byte) error {
+	msg := new(nika_operator.Release)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *GetReleaseResult) GetSuccess() *nika_operator.Release {
+	if !p.IsSetSuccess() {
+		return GetReleaseResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *GetReleaseResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_operator.Release)
+}
+
+func (p *GetReleaseResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func getHistoryHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_operator.GetHistoryRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_operator.NikaOperator).GetHistory(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *GetHistoryArgs:
+		success, err := handler.(nika_operator.NikaOperator).GetHistory(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*GetHistoryResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newGetHistoryArgs() interface{} {
+	return &GetHistoryArgs{}
+}
+
+func newGetHistoryResult() interface{} {
+	return &GetHistoryResult{}
+}
+
+type GetHistoryArgs struct {
+	Req *nika_operator.GetHistoryRequest
+}
+
+func (p *GetHistoryArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in GetHistoryArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *GetHistoryArgs) Unmarshal(in []byte) error {
+	msg := new(nika_operator.GetHistoryRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var GetHistoryArgs_Req_DEFAULT *nika_operator.GetHistoryRequest
+
+func (p *GetHistoryArgs) GetReq() *nika_operator.GetHistoryRequest {
+	if !p.IsSetReq() {
+		return GetHistoryArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *GetHistoryArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type GetHistoryResult struct {
+	Success *nika_operator.Releases
+}
+
+var GetHistoryResult_Success_DEFAULT *nika_operator.Releases
+
+func (p *GetHistoryResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in GetHistoryResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *GetHistoryResult) Unmarshal(in []byte) error {
+	msg := new(nika_operator.Releases)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *GetHistoryResult) GetSuccess() *nika_operator.Releases {
+	if !p.IsSetSuccess() {
+		return GetHistoryResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *GetHistoryResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_operator.Releases)
+}
+
+func (p *GetHistoryResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func rollBackHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_operator.RollBackRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_operator.NikaOperator).RollBack(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *RollBackArgs:
+		success, err := handler.(nika_operator.NikaOperator).RollBack(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*RollBackResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newRollBackArgs() interface{} {
+	return &RollBackArgs{}
+}
+
+func newRollBackResult() interface{} {
+	return &RollBackResult{}
+}
+
+type RollBackArgs struct {
+	Req *nika_operator.RollBackRequest
+}
+
+func (p *RollBackArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in RollBackArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *RollBackArgs) Unmarshal(in []byte) error {
+	msg := new(nika_operator.RollBackRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var RollBackArgs_Req_DEFAULT *nika_operator.RollBackRequest
+
+func (p *RollBackArgs) GetReq() *nika_operator.RollBackRequest {
+	if !p.IsSetReq() {
+		return RollBackArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *RollBackArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type RollBackResult struct {
+	Success *nika_operator.Empty
+}
+
+var RollBackResult_Success_DEFAULT *nika_operator.Empty
+
+func (p *RollBackResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in RollBackResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *RollBackResult) Unmarshal(in []byte) error {
+	msg := new(nika_operator.Empty)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *RollBackResult) GetSuccess() *nika_operator.Empty {
+	if !p.IsSetSuccess() {
+		return RollBackResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *RollBackResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_operator.Empty)
+}
+
+func (p *RollBackResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -498,6 +810,36 @@ func (p *kClient) ListKubernetesAPIObject(ctx context.Context, Req *nika_operato
 	_args.Req = Req
 	var _result ListKubernetesAPIObjectResult
 	if err = p.c.Call(ctx, "ListKubernetesAPIObject", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetRelease(ctx context.Context, Req *nika_operator.GetReleaseRequest) (r *nika_operator.Release, err error) {
+	var _args GetReleaseArgs
+	_args.Req = Req
+	var _result GetReleaseResult
+	if err = p.c.Call(ctx, "GetRelease", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetHistory(ctx context.Context, Req *nika_operator.GetHistoryRequest) (r *nika_operator.Releases, err error) {
+	var _args GetHistoryArgs
+	_args.Req = Req
+	var _result GetHistoryResult
+	if err = p.c.Call(ctx, "GetHistory", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) RollBack(ctx context.Context, Req *nika_operator.RollBackRequest) (r *nika_operator.Empty, err error) {
+	var _args RollBackArgs
+	_args.Req = Req
+	var _result RollBackResult
+	if err = p.c.Call(ctx, "RollBack", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

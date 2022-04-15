@@ -83,11 +83,62 @@ message ListListKubernetesAPIObjectResponse{
   string ApiVersion = 3;
 
 }
+message Hook {
+  string name = 1;
+  string kind = 2;
+  string path = 3;
+  string manifest =4;
+  repeated string events = 5;
+}
+message Release {
+  string Name = 1;
+  string Namespace = 2;
+  string FirstDeployed = 3;
+  string LatestDeployed = 4;
+  string Status = 5;
+  string Description = 6;
+  int64 version = 7;
+  string manifest = 8;
+  repeated Hook hooks = 9;
+}
+message GetReleaseRequest {
+  string Namespace = 1;
+  string ApiServer = 3;
+  string Token = 4;
+  string CA = 5;
+  string release = 6;
+  int64 version = 7;
+  bool latest = 8;
+}
+message Releases {
+  repeated Release releases = 1;
+}
 
+message GetHistoryRequest {
+  string Namespace = 1;
+  string ApiServer = 3;
+  string Token = 4;
+  string CA = 5;
+  string release = 6;
+}
+message RollBackRequest {
+  string Namespace = 1;
+  string ApiServer = 3;
+  string Token = 4;
+  string CA = 5;
+  string release = 6;
+  int64 version = 7;
+}
+
+
+message empty {}
 service NikaOperator{
   rpc Exec(ExecRequest) returns (ExecResponse){}
   rpc GetExecRecord(GetExecRecordRequest) returns (GetExecRecordResponse){}
   rpc ListExecRecordByAppIDAndEnvNameAndCmd(ListExecRecordByAppIDAndEnvNameAndCmdRequest) returns (ListExecRecordByAppIDAndEnvNameAndCmdResponse){}
 
   rpc ListKubernetesAPIObject(ListKubernetesAPIObjectRequest) returns(ListListKubernetesAPIObjectResponse){}
+  rpc GetRelease(GetReleaseRequest) returns(Release){}
+  rpc GetHistory(GetHistoryRequest) returns(Releases){}
+  rpc RollBack(RollBackRequest) returns(empty){}
 }

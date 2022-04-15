@@ -15,6 +15,9 @@ type Client interface {
 	GetExecRecord(ctx context.Context, Req *nika_operator.GetExecRecordRequest, callOptions ...callopt.Option) (r *nika_operator.GetExecRecordResponse, err error)
 	ListExecRecordByAppIDAndEnvNameAndCmd(ctx context.Context, Req *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdRequest, callOptions ...callopt.Option) (r *nika_operator.ListExecRecordByAppIDAndEnvNameAndCmdResponse, err error)
 	ListKubernetesAPIObject(ctx context.Context, Req *nika_operator.ListKubernetesAPIObjectRequest, callOptions ...callopt.Option) (r *nika_operator.ListListKubernetesAPIObjectResponse, err error)
+	GetRelease(ctx context.Context, Req *nika_operator.GetReleaseRequest, callOptions ...callopt.Option) (r *nika_operator.Release, err error)
+	GetHistory(ctx context.Context, Req *nika_operator.GetHistoryRequest, callOptions ...callopt.Option) (r *nika_operator.Releases, err error)
+	RollBack(ctx context.Context, Req *nika_operator.RollBackRequest, callOptions ...callopt.Option) (r *nika_operator.Empty, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -64,4 +67,19 @@ func (p *kNikaOperatorClient) ListExecRecordByAppIDAndEnvNameAndCmd(ctx context.
 func (p *kNikaOperatorClient) ListKubernetesAPIObject(ctx context.Context, Req *nika_operator.ListKubernetesAPIObjectRequest, callOptions ...callopt.Option) (r *nika_operator.ListListKubernetesAPIObjectResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ListKubernetesAPIObject(ctx, Req)
+}
+
+func (p *kNikaOperatorClient) GetRelease(ctx context.Context, Req *nika_operator.GetReleaseRequest, callOptions ...callopt.Option) (r *nika_operator.Release, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetRelease(ctx, Req)
+}
+
+func (p *kNikaOperatorClient) GetHistory(ctx context.Context, Req *nika_operator.GetHistoryRequest, callOptions ...callopt.Option) (r *nika_operator.Releases, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetHistory(ctx, Req)
+}
+
+func (p *kNikaOperatorClient) RollBack(ctx context.Context, Req *nika_operator.RollBackRequest, callOptions ...callopt.Option) (r *nika_operator.Empty, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.RollBack(ctx, Req)
 }
