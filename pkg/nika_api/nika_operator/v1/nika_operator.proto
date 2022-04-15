@@ -22,6 +22,7 @@ message ExecRequest{
   string applicationName = 18;
   uint64 applicationID = 19;
   string version = 20;
+  string Description = 21;
 }
 message ExecResponse{
   GetExecRecordResponse ExecRecord = 1;
@@ -54,6 +55,7 @@ message GetExecRecordResponse{
   bool Debug = 21;
   uint64 ApplicationID = 22;
   string EnvValues = 23;
+  string Description = 24;
 }
 message ListExecRecordByAppIDAndEnvNameAndCmdRequest{
   uint64 ID = 1;
