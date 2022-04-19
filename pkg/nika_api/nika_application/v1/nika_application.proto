@@ -86,6 +86,94 @@ message PatchEnvRequest {
     repeated Environment Environments =1 ;
     uint64 ID = 2;
 }
+
+message Image {
+  string Repository = 1;
+}
+message SecretName {
+  string Name = 1;
+}
+message ServiceAccount{
+  bool create = 1;
+}
+
+message Service {
+  uint32 Port = 1;
+  string type = 2;
+}
+
+message Path {
+  string Name = 1;
+  string PathType = 2;
+}
+message Ingress {
+  bool Enable = 1;
+  string className = 2;
+  repeated Annotation Annotations = 3;
+  repeated Tls Tls = 4;
+  repeated Host Hosts = 5;
+}
+message Host {
+  string name = 1;
+  repeated Path path = 2;
+}
+
+message Tls {
+  repeated string Hosts = 1;
+  string SecretName = 2;
+}
+message Annotation {
+  map<string,string> Annotation = 1;
+}
+message Limit {
+  string CPU = 1;
+  string Memory = 2;
+}
+message Request {
+  string CPU = 1;
+  string Memory = 2;
+}
+message TcpSocket {
+  uint32 port = 1;
+}
+message Resources {
+  Limit Limit = 1;
+  Request Request =2;
+}
+message ProbeConfig {
+    TcpSocket TcpSocket = 1;
+    uint64 InitialDelaySeconds =2;
+    uint64 PeriodSeconds = 3;
+}
+message Probe {
+  bool Enable = 1;
+  ProbeConfig ProbeConfig = 2;
+
+}
+message WebServer {
+  uint32 ReplicaCount =1;
+  Image Image = 2;
+  repeated SecretName ImagePullSecrets =3;
+  ServiceAccount ServiceAccount = 4;
+  Service Service = 5;
+  Ingress Ingress = 6;
+  Resources Resources = 7;
+  Probe LivenessProbe = 8;
+  Probe ReadinessProbe = 9;
+}
+message TemplateWebServerChart{
+  string name = 1;
+  string Description = 2;
+  string AppVersion = 3;
+}
+message CreateWebServerRequest{
+    WebServer WebServer = 1;
+    TemplateWebServerChart TemplateWebServerChart = 2;
+}
+message CreateWebServerResponse{
+  bytes data = 1;
+}
+
 service NikaApplication{
   rpc CreateApplication(CreateApplicationRequest) returns (CreateApplicationResponse) {}
   rpc UpdateApplication(UpdateApplicationRequest) returns (UpdateApplicationResponse) {}
@@ -94,12 +182,12 @@ service NikaApplication{
   rpc DeleteApplication(GetApplicationRequest) returns (UpdateApplicationResponse) {}
   rpc PatchEnv(PatchEnvRequest) returns(GetApplicationResponse){}
 
-
-
   rpc CreateProject(CreateProjectRequest) returns (Project) {}
   rpc UpdateProject(Project) returns (Project) {}
   rpc GetProject(GetProjectRequest) returns (Project) {}
   rpc ListProject(ListProjectRequest) returns (Projects) {}
   rpc DeleteProject(GetProjectRequest) returns (UpdateApplicationResponse) {}
+
+  rpc CreateWebServer(CreateWebServerRequest) returns(CreateWebServerResponse){}
 
 }
