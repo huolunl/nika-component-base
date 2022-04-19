@@ -3,7 +3,7 @@ option go_package = "nika_application";
 
 message CreateApplicationRequest{
   string git = 1;
-  uint32 type = 2;
+  string type = 2;
   uint32 status = 3;
   repeated uint64 userIDList = 4;
   repeated string projectNameList = 5;
