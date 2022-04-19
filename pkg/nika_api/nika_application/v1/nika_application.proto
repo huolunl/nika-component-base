@@ -165,6 +165,7 @@ message TemplateWebServerChart{
   string name = 1;
   string Description = 2;
   string AppVersion = 3;
+  string Version = 4;
 }
 message CreateWebServerRequest{
     WebServer WebServer = 1;
