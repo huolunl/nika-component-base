@@ -23,7 +23,6 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	handlerType := (*nika_chartmuseum.ChartService)(nil)
 	methods := map[string]kitex.MethodInfo{
 		"ListChart":                kitex.NewMethodInfo(listChartHandler, newListChartArgs, newListChartResult, false),
-		"ListNamedChart":           kitex.NewMethodInfo(listNamedChartHandler, newListNamedChartArgs, newListNamedChartResult, false),
 		"DeleteChart":              kitex.NewMethodInfo(deleteChartHandler, newDeleteChartArgs, newDeleteChartResult, false),
 		"UploadProvenanceFile":     kitex.NewMethodInfo(uploadProvenanceFileHandler, newUploadProvenanceFileArgs, newUploadProvenanceFileResult, false),
 		"GetChartByName":           kitex.NewMethodInfo(getChartByNameHandler, newGetChartByNameArgs, newGetChartByNameResult, false),
@@ -148,109 +147,6 @@ func (p *ListChartResult) SetSuccess(x interface{}) {
 }
 
 func (p *ListChartResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
-func listNamedChartHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	switch s := arg.(type) {
-	case *streaming.Args:
-		st := s.Stream
-		req := new(nika_chartmuseum.ListNamedChartRequest)
-		if err := st.RecvMsg(req); err != nil {
-			return err
-		}
-		resp, err := handler.(nika_chartmuseum.ChartService).ListNamedChart(ctx, req)
-		if err != nil {
-			return err
-		}
-		if err := st.SendMsg(resp); err != nil {
-			return err
-		}
-	case *ListNamedChartArgs:
-		success, err := handler.(nika_chartmuseum.ChartService).ListNamedChart(ctx, s.Req)
-		if err != nil {
-			return err
-		}
-		realResult := result.(*ListNamedChartResult)
-		realResult.Success = success
-	}
-	return nil
-}
-func newListNamedChartArgs() interface{} {
-	return &ListNamedChartArgs{}
-}
-
-func newListNamedChartResult() interface{} {
-	return &ListNamedChartResult{}
-}
-
-type ListNamedChartArgs struct {
-	Req *nika_chartmuseum.ListNamedChartRequest
-}
-
-func (p *ListNamedChartArgs) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetReq() {
-		return out, fmt.Errorf("No req in ListNamedChartArgs")
-	}
-	return proto.Marshal(p.Req)
-}
-
-func (p *ListNamedChartArgs) Unmarshal(in []byte) error {
-	msg := new(nika_chartmuseum.ListNamedChartRequest)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Req = msg
-	return nil
-}
-
-var ListNamedChartArgs_Req_DEFAULT *nika_chartmuseum.ListNamedChartRequest
-
-func (p *ListNamedChartArgs) GetReq() *nika_chartmuseum.ListNamedChartRequest {
-	if !p.IsSetReq() {
-		return ListNamedChartArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-
-func (p *ListNamedChartArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-type ListNamedChartResult struct {
-	Success *nika_chartmuseum.ListNamedChartResponse
-}
-
-var ListNamedChartResult_Success_DEFAULT *nika_chartmuseum.ListNamedChartResponse
-
-func (p *ListNamedChartResult) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetSuccess() {
-		return out, fmt.Errorf("No req in ListNamedChartResult")
-	}
-	return proto.Marshal(p.Success)
-}
-
-func (p *ListNamedChartResult) Unmarshal(in []byte) error {
-	msg := new(nika_chartmuseum.ListNamedChartResponse)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Success = msg
-	return nil
-}
-
-func (p *ListNamedChartResult) GetSuccess() *nika_chartmuseum.ListNamedChartResponse {
-	if !p.IsSetSuccess() {
-		return ListNamedChartResult_Success_DEFAULT
-	}
-	return p.Success
-}
-
-func (p *ListNamedChartResult) SetSuccess(x interface{}) {
-	p.Success = x.(*nika_chartmuseum.ListNamedChartResponse)
-}
-
-func (p *ListNamedChartResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
@@ -1196,16 +1092,6 @@ func (p *kClient) ListChart(ctx context.Context, Req *nika_chartmuseum.ListChart
 	_args.Req = Req
 	var _result ListChartResult
 	if err = p.c.Call(ctx, "ListChart", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) ListNamedChart(ctx context.Context, Req *nika_chartmuseum.ListNamedChartRequest) (r *nika_chartmuseum.ListNamedChartResponse, err error) {
-	var _args ListNamedChartArgs
-	_args.Req = Req
-	var _result ListNamedChartResult
-	if err = p.c.Call(ctx, "ListNamedChart", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

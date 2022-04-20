@@ -12,7 +12,6 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	ListChart(ctx context.Context, Req *nika_chartmuseum.ListChartRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.ListChartResponse, err error)
-	ListNamedChart(ctx context.Context, Req *nika_chartmuseum.ListNamedChartRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.ListNamedChartResponse, err error)
 	DeleteChart(ctx context.Context, Req *nika_chartmuseum.DeleteChartRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.DeleteChartResponse, err error)
 	UploadProvenanceFile(ctx context.Context, Req *nika_chartmuseum.UploadProvenanceFileRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.UploadProvenanceFileResponse, err error)
 	GetChartByName(ctx context.Context, Req *nika_chartmuseum.GetChartByNameRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.GetChartByNameResponse, err error)
@@ -56,11 +55,6 @@ type kChartServiceClient struct {
 func (p *kChartServiceClient) ListChart(ctx context.Context, Req *nika_chartmuseum.ListChartRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.ListChartResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ListChart(ctx, Req)
-}
-
-func (p *kChartServiceClient) ListNamedChart(ctx context.Context, Req *nika_chartmuseum.ListNamedChartRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.ListNamedChartResponse, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.ListNamedChart(ctx, Req)
 }
 
 func (p *kChartServiceClient) DeleteChart(ctx context.Context, Req *nika_chartmuseum.DeleteChartRequest, callOptions ...callopt.Option) (r *nika_chartmuseum.DeleteChartResponse, err error) {
