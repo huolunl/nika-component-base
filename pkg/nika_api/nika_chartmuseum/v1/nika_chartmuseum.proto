@@ -3,6 +3,7 @@ option go_package = "nika_chartmuseum";
 
 service ChartService {
   rpc ListChart (ListChartRequest) returns (ListChartResponse) {}
+  rpc ListNamedChart (ListNamedChartRequest) returns (ListNamedChartResponse) {}
   rpc DeleteChart (DeleteChartRequest) returns (DeleteChartResponse) {}
   rpc UploadProvenanceFile (UploadProvenanceFileRequest) returns (UploadProvenanceFileResponse) {}
   rpc GetChartByName (GetChartByNameRequest) returns (GetChartByNameResponse) {}
@@ -24,7 +25,6 @@ message DeleteChartResponse {
 }
 
 message UploadProvenanceFileRequest {
-  string file_name = 1;
   bytes data = 2;
 }
 
@@ -102,7 +102,13 @@ message CheckChartVersionIsExistResponse {
 message ListChartRequest {
 
 }
+message ListNamedChartRequest{
+  string chart = 1;
+}
 
+message ListNamedChartResponse{
+  map<string, Charts> charts_map = 1;
+}
 message ListChartResponse {
   map<string, Charts> charts_map = 1;
 }
