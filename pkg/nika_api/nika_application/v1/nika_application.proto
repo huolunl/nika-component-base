@@ -28,9 +28,10 @@ message Environment {
   string Name = 1;
   string Value=2;
    string Namespace =3;
-   AppChart Chart=4;
-   string ValueTemplate=5;
-   uint64 ClusterID = 6;
+   string Release=4;
+   AppChart Chart=5;
+   string ValueTemplate=6;
+   uint64 ClusterID = 7;
 }
 
 message GetApplicationRequest{
