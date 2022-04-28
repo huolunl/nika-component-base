@@ -150,7 +150,7 @@ message Probe {
   ProbeConfig ProbeConfig = 2;
 
 }
-message WebServer {
+message Webserver {
   uint32 ReplicaCount =1;
   Image Image = 2;
   repeated SecretName ImagePullSecrets =3;
@@ -161,17 +161,17 @@ message WebServer {
   Probe LivenessProbe = 8;
   Probe ReadinessProbe = 9;
 }
-message TemplateWebServerChart{
+message TemplateWebserverChart{
   string name = 1;
   string Description = 2;
   string AppVersion = 3;
   string Version = 4;
 }
-message CreateWebServerRequest{
-    WebServer WebServer = 1;
-    TemplateWebServerChart TemplateWebServerChart = 2;
+message CreateWebserverRequest{
+    Webserver Webserver = 1;
+    TemplateWebserverChart TemplateWebserverChart = 2;
 }
-message CreateWebServerResponse{
+message CreateWebserverResponse{
   bytes data = 1;
 }
 
@@ -189,6 +189,6 @@ service NikaApplication{
   rpc ListProject(ListProjectRequest) returns (Projects) {}
   rpc DeleteProject(GetProjectRequest) returns (UpdateApplicationResponse) {}
 
-  rpc CreateWebServer(CreateWebServerRequest) returns(CreateWebServerResponse){}
+  rpc CreateWebserver(CreateWebserverRequest) returns(CreateWebserverResponse){}
 
 }

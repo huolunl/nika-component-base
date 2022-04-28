@@ -22,7 +22,7 @@ type Client interface {
 	GetProject(ctx context.Context, Req *nika_application.GetProjectRequest, callOptions ...callopt.Option) (r *nika_application.Project, err error)
 	ListProject(ctx context.Context, Req *nika_application.ListProjectRequest, callOptions ...callopt.Option) (r *nika_application.Projects, err error)
 	DeleteProject(ctx context.Context, Req *nika_application.GetProjectRequest, callOptions ...callopt.Option) (r *nika_application.UpdateApplicationResponse, err error)
-	CreateWebServer(ctx context.Context, Req *nika_application.CreateWebServerRequest, callOptions ...callopt.Option) (r *nika_application.CreateWebServerResponse, err error)
+	CreateWebserver(ctx context.Context, Req *nika_application.CreateWebserverRequest, callOptions ...callopt.Option) (r *nika_application.CreateWebserverResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -109,7 +109,7 @@ func (p *kNikaApplicationClient) DeleteProject(ctx context.Context, Req *nika_ap
 	return p.kClient.DeleteProject(ctx, Req)
 }
 
-func (p *kNikaApplicationClient) CreateWebServer(ctx context.Context, Req *nika_application.CreateWebServerRequest, callOptions ...callopt.Option) (r *nika_application.CreateWebServerResponse, err error) {
+func (p *kNikaApplicationClient) CreateWebserver(ctx context.Context, Req *nika_application.CreateWebserverRequest, callOptions ...callopt.Option) (r *nika_application.CreateWebserverResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.CreateWebServer(ctx, Req)
+	return p.kClient.CreateWebserver(ctx, Req)
 }

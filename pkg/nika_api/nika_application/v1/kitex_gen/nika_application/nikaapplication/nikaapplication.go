@@ -33,7 +33,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"GetProject":        kitex.NewMethodInfo(getProjectHandler, newGetProjectArgs, newGetProjectResult, false),
 		"ListProject":       kitex.NewMethodInfo(listProjectHandler, newListProjectArgs, newListProjectResult, false),
 		"DeleteProject":     kitex.NewMethodInfo(deleteProjectHandler, newDeleteProjectArgs, newDeleteProjectResult, false),
-		"CreateWebServer":   kitex.NewMethodInfo(createWebServerHandler, newCreateWebServerArgs, newCreateWebServerResult, false),
+		"CreateWebserver":   kitex.NewMethodInfo(createWebserverHandler, newCreateWebserverArgs, newCreateWebserverResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "",
@@ -1182,52 +1182,52 @@ func (p *DeleteProjectResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func createWebServerHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+func createWebserverHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(nika_application.CreateWebServerRequest)
+		req := new(nika_application.CreateWebserverRequest)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(nika_application.NikaApplication).CreateWebServer(ctx, req)
+		resp, err := handler.(nika_application.NikaApplication).CreateWebserver(ctx, req)
 		if err != nil {
 			return err
 		}
 		if err := st.SendMsg(resp); err != nil {
 			return err
 		}
-	case *CreateWebServerArgs:
-		success, err := handler.(nika_application.NikaApplication).CreateWebServer(ctx, s.Req)
+	case *CreateWebserverArgs:
+		success, err := handler.(nika_application.NikaApplication).CreateWebserver(ctx, s.Req)
 		if err != nil {
 			return err
 		}
-		realResult := result.(*CreateWebServerResult)
+		realResult := result.(*CreateWebserverResult)
 		realResult.Success = success
 	}
 	return nil
 }
-func newCreateWebServerArgs() interface{} {
-	return &CreateWebServerArgs{}
+func newCreateWebserverArgs() interface{} {
+	return &CreateWebserverArgs{}
 }
 
-func newCreateWebServerResult() interface{} {
-	return &CreateWebServerResult{}
+func newCreateWebserverResult() interface{} {
+	return &CreateWebserverResult{}
 }
 
-type CreateWebServerArgs struct {
-	Req *nika_application.CreateWebServerRequest
+type CreateWebserverArgs struct {
+	Req *nika_application.CreateWebserverRequest
 }
 
-func (p *CreateWebServerArgs) Marshal(out []byte) ([]byte, error) {
+func (p *CreateWebserverArgs) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetReq() {
-		return out, fmt.Errorf("No req in CreateWebServerArgs")
+		return out, fmt.Errorf("No req in CreateWebserverArgs")
 	}
 	return proto.Marshal(p.Req)
 }
 
-func (p *CreateWebServerArgs) Unmarshal(in []byte) error {
-	msg := new(nika_application.CreateWebServerRequest)
+func (p *CreateWebserverArgs) Unmarshal(in []byte) error {
+	msg := new(nika_application.CreateWebserverRequest)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -1235,34 +1235,34 @@ func (p *CreateWebServerArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var CreateWebServerArgs_Req_DEFAULT *nika_application.CreateWebServerRequest
+var CreateWebserverArgs_Req_DEFAULT *nika_application.CreateWebserverRequest
 
-func (p *CreateWebServerArgs) GetReq() *nika_application.CreateWebServerRequest {
+func (p *CreateWebserverArgs) GetReq() *nika_application.CreateWebserverRequest {
 	if !p.IsSetReq() {
-		return CreateWebServerArgs_Req_DEFAULT
+		return CreateWebserverArgs_Req_DEFAULT
 	}
 	return p.Req
 }
 
-func (p *CreateWebServerArgs) IsSetReq() bool {
+func (p *CreateWebserverArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-type CreateWebServerResult struct {
-	Success *nika_application.CreateWebServerResponse
+type CreateWebserverResult struct {
+	Success *nika_application.CreateWebserverResponse
 }
 
-var CreateWebServerResult_Success_DEFAULT *nika_application.CreateWebServerResponse
+var CreateWebserverResult_Success_DEFAULT *nika_application.CreateWebserverResponse
 
-func (p *CreateWebServerResult) Marshal(out []byte) ([]byte, error) {
+func (p *CreateWebserverResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
-		return out, fmt.Errorf("No req in CreateWebServerResult")
+		return out, fmt.Errorf("No req in CreateWebserverResult")
 	}
 	return proto.Marshal(p.Success)
 }
 
-func (p *CreateWebServerResult) Unmarshal(in []byte) error {
-	msg := new(nika_application.CreateWebServerResponse)
+func (p *CreateWebserverResult) Unmarshal(in []byte) error {
+	msg := new(nika_application.CreateWebserverResponse)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -1270,18 +1270,18 @@ func (p *CreateWebServerResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *CreateWebServerResult) GetSuccess() *nika_application.CreateWebServerResponse {
+func (p *CreateWebserverResult) GetSuccess() *nika_application.CreateWebserverResponse {
 	if !p.IsSetSuccess() {
-		return CreateWebServerResult_Success_DEFAULT
+		return CreateWebserverResult_Success_DEFAULT
 	}
 	return p.Success
 }
 
-func (p *CreateWebServerResult) SetSuccess(x interface{}) {
-	p.Success = x.(*nika_application.CreateWebServerResponse)
+func (p *CreateWebserverResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_application.CreateWebserverResponse)
 }
 
-func (p *CreateWebServerResult) IsSetSuccess() bool {
+func (p *CreateWebserverResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
@@ -1405,11 +1405,11 @@ func (p *kClient) DeleteProject(ctx context.Context, Req *nika_application.GetPr
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) CreateWebServer(ctx context.Context, Req *nika_application.CreateWebServerRequest) (r *nika_application.CreateWebServerResponse, err error) {
-	var _args CreateWebServerArgs
+func (p *kClient) CreateWebserver(ctx context.Context, Req *nika_application.CreateWebserverRequest) (r *nika_application.CreateWebserverResponse, err error) {
+	var _args CreateWebserverArgs
 	_args.Req = Req
-	var _result CreateWebServerResult
-	if err = p.c.Call(ctx, "CreateWebServer", &_args, &_result); err != nil {
+	var _result CreateWebserverResult
+	if err = p.c.Call(ctx, "CreateWebserver", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

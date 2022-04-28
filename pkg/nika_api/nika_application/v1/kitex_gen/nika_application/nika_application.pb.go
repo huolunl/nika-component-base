@@ -1853,7 +1853,7 @@ func (x *Probe) GetProbeConfig() *ProbeConfig {
 	return nil
 }
 
-type WebServer struct {
+type Webserver struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -1869,8 +1869,8 @@ type WebServer struct {
 	ReadinessProbe   *Probe          `protobuf:"bytes,9,opt,name=ReadinessProbe,proto3" json:"ReadinessProbe,omitempty"`
 }
 
-func (x *WebServer) Reset() {
-	*x = WebServer{}
+func (x *Webserver) Reset() {
+	*x = Webserver{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_nika_application_proto_msgTypes[31]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1878,13 +1878,13 @@ func (x *WebServer) Reset() {
 	}
 }
 
-func (x *WebServer) String() string {
+func (x *Webserver) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*WebServer) ProtoMessage() {}
+func (*Webserver) ProtoMessage() {}
 
-func (x *WebServer) ProtoReflect() protoreflect.Message {
+func (x *Webserver) ProtoReflect() protoreflect.Message {
 	mi := &file_nika_application_proto_msgTypes[31]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1896,75 +1896,75 @@ func (x *WebServer) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WebServer.ProtoReflect.Descriptor instead.
-func (*WebServer) Descriptor() ([]byte, []int) {
+// Deprecated: Use Webserver.ProtoReflect.Descriptor instead.
+func (*Webserver) Descriptor() ([]byte, []int) {
 	return file_nika_application_proto_rawDescGZIP(), []int{31}
 }
 
-func (x *WebServer) GetReplicaCount() uint32 {
+func (x *Webserver) GetReplicaCount() uint32 {
 	if x != nil {
 		return x.ReplicaCount
 	}
 	return 0
 }
 
-func (x *WebServer) GetImage() *Image {
+func (x *Webserver) GetImage() *Image {
 	if x != nil {
 		return x.Image
 	}
 	return nil
 }
 
-func (x *WebServer) GetImagePullSecrets() []*SecretName {
+func (x *Webserver) GetImagePullSecrets() []*SecretName {
 	if x != nil {
 		return x.ImagePullSecrets
 	}
 	return nil
 }
 
-func (x *WebServer) GetServiceAccount() *ServiceAccount {
+func (x *Webserver) GetServiceAccount() *ServiceAccount {
 	if x != nil {
 		return x.ServiceAccount
 	}
 	return nil
 }
 
-func (x *WebServer) GetService() *Service {
+func (x *Webserver) GetService() *Service {
 	if x != nil {
 		return x.Service
 	}
 	return nil
 }
 
-func (x *WebServer) GetIngress() *Ingress {
+func (x *Webserver) GetIngress() *Ingress {
 	if x != nil {
 		return x.Ingress
 	}
 	return nil
 }
 
-func (x *WebServer) GetResources() *Resources {
+func (x *Webserver) GetResources() *Resources {
 	if x != nil {
 		return x.Resources
 	}
 	return nil
 }
 
-func (x *WebServer) GetLivenessProbe() *Probe {
+func (x *Webserver) GetLivenessProbe() *Probe {
 	if x != nil {
 		return x.LivenessProbe
 	}
 	return nil
 }
 
-func (x *WebServer) GetReadinessProbe() *Probe {
+func (x *Webserver) GetReadinessProbe() *Probe {
 	if x != nil {
 		return x.ReadinessProbe
 	}
 	return nil
 }
 
-type TemplateWebServerChart struct {
+type TemplateWebserverChart struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -1975,8 +1975,8 @@ type TemplateWebServerChart struct {
 	Version     string `protobuf:"bytes,4,opt,name=Version,proto3" json:"Version,omitempty"`
 }
 
-func (x *TemplateWebServerChart) Reset() {
-	*x = TemplateWebServerChart{}
+func (x *TemplateWebserverChart) Reset() {
+	*x = TemplateWebserverChart{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_nika_application_proto_msgTypes[32]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1984,13 +1984,13 @@ func (x *TemplateWebServerChart) Reset() {
 	}
 }
 
-func (x *TemplateWebServerChart) String() string {
+func (x *TemplateWebserverChart) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TemplateWebServerChart) ProtoMessage() {}
+func (*TemplateWebserverChart) ProtoMessage() {}
 
-func (x *TemplateWebServerChart) ProtoReflect() protoreflect.Message {
+func (x *TemplateWebserverChart) ProtoReflect() protoreflect.Message {
 	mi := &file_nika_application_proto_msgTypes[32]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2002,50 +2002,50 @@ func (x *TemplateWebServerChart) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TemplateWebServerChart.ProtoReflect.Descriptor instead.
-func (*TemplateWebServerChart) Descriptor() ([]byte, []int) {
+// Deprecated: Use TemplateWebserverChart.ProtoReflect.Descriptor instead.
+func (*TemplateWebserverChart) Descriptor() ([]byte, []int) {
 	return file_nika_application_proto_rawDescGZIP(), []int{32}
 }
 
-func (x *TemplateWebServerChart) GetName() string {
+func (x *TemplateWebserverChart) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *TemplateWebServerChart) GetDescription() string {
+func (x *TemplateWebserverChart) GetDescription() string {
 	if x != nil {
 		return x.Description
 	}
 	return ""
 }
 
-func (x *TemplateWebServerChart) GetAppVersion() string {
+func (x *TemplateWebserverChart) GetAppVersion() string {
 	if x != nil {
 		return x.AppVersion
 	}
 	return ""
 }
 
-func (x *TemplateWebServerChart) GetVersion() string {
+func (x *TemplateWebserverChart) GetVersion() string {
 	if x != nil {
 		return x.Version
 	}
 	return ""
 }
 
-type CreateWebServerRequest struct {
+type CreateWebserverRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	WebServer              *WebServer              `protobuf:"bytes,1,opt,name=WebServer,proto3" json:"WebServer,omitempty"`
-	TemplateWebServerChart *TemplateWebServerChart `protobuf:"bytes,2,opt,name=TemplateWebServerChart,proto3" json:"TemplateWebServerChart,omitempty"`
+	Webserver              *Webserver              `protobuf:"bytes,1,opt,name=Webserver,proto3" json:"Webserver,omitempty"`
+	TemplateWebserverChart *TemplateWebserverChart `protobuf:"bytes,2,opt,name=TemplateWebserverChart,proto3" json:"TemplateWebserverChart,omitempty"`
 }
 
-func (x *CreateWebServerRequest) Reset() {
-	*x = CreateWebServerRequest{}
+func (x *CreateWebserverRequest) Reset() {
+	*x = CreateWebserverRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_nika_application_proto_msgTypes[33]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2053,13 +2053,13 @@ func (x *CreateWebServerRequest) Reset() {
 	}
 }
 
-func (x *CreateWebServerRequest) String() string {
+func (x *CreateWebserverRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateWebServerRequest) ProtoMessage() {}
+func (*CreateWebserverRequest) ProtoMessage() {}
 
-func (x *CreateWebServerRequest) ProtoReflect() protoreflect.Message {
+func (x *CreateWebserverRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_nika_application_proto_msgTypes[33]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2071,26 +2071,26 @@ func (x *CreateWebServerRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateWebServerRequest.ProtoReflect.Descriptor instead.
-func (*CreateWebServerRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateWebserverRequest.ProtoReflect.Descriptor instead.
+func (*CreateWebserverRequest) Descriptor() ([]byte, []int) {
 	return file_nika_application_proto_rawDescGZIP(), []int{33}
 }
 
-func (x *CreateWebServerRequest) GetWebServer() *WebServer {
+func (x *CreateWebserverRequest) GetWebserver() *Webserver {
 	if x != nil {
-		return x.WebServer
+		return x.Webserver
 	}
 	return nil
 }
 
-func (x *CreateWebServerRequest) GetTemplateWebServerChart() *TemplateWebServerChart {
+func (x *CreateWebserverRequest) GetTemplateWebserverChart() *TemplateWebserverChart {
 	if x != nil {
-		return x.TemplateWebServerChart
+		return x.TemplateWebserverChart
 	}
 	return nil
 }
 
-type CreateWebServerResponse struct {
+type CreateWebserverResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -2098,8 +2098,8 @@ type CreateWebServerResponse struct {
 	Data []byte `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
 }
 
-func (x *CreateWebServerResponse) Reset() {
-	*x = CreateWebServerResponse{}
+func (x *CreateWebserverResponse) Reset() {
+	*x = CreateWebserverResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_nika_application_proto_msgTypes[34]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2107,13 +2107,13 @@ func (x *CreateWebServerResponse) Reset() {
 	}
 }
 
-func (x *CreateWebServerResponse) String() string {
+func (x *CreateWebserverResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateWebServerResponse) ProtoMessage() {}
+func (*CreateWebserverResponse) ProtoMessage() {}
 
-func (x *CreateWebServerResponse) ProtoReflect() protoreflect.Message {
+func (x *CreateWebserverResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_nika_application_proto_msgTypes[34]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2125,12 +2125,12 @@ func (x *CreateWebServerResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateWebServerResponse.ProtoReflect.Descriptor instead.
-func (*CreateWebServerResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateWebserverResponse.ProtoReflect.Descriptor instead.
+func (*CreateWebserverResponse) Descriptor() ([]byte, []int) {
 	return file_nika_application_proto_rawDescGZIP(), []int{34}
 }
 
-func (x *CreateWebServerResponse) GetData() []byte {
+func (x *CreateWebserverResponse) GetData() []byte {
 	if x != nil {
 		return x.Data
 	}
@@ -2318,7 +2318,7 @@ var file_nika_application_proto_rawDesc = []byte{
 	0x0b, 0x50, 0x72, 0x6f, 0x62, 0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x18, 0x02, 0x20, 0x01,
 	0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x50, 0x72, 0x6f, 0x62, 0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67,
 	0x52, 0x0b, 0x50, 0x72, 0x6f, 0x62, 0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x22, 0x8f, 0x03,
-	0x0a, 0x09, 0x57, 0x65, 0x62, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x12, 0x22, 0x0a, 0x0c, 0x52,
+	0x0a, 0x09, 0x57, 0x65, 0x62, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x12, 0x22, 0x0a, 0x0c, 0x52,
 	0x65, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x0d, 0x52, 0x0c, 0x52, 0x65, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12,
 	0x1c, 0x0a, 0x05, 0x49, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x06,
@@ -2343,7 +2343,7 @@ var file_nika_application_proto_rawDesc = []byte{
 	0x2e, 0x0a, 0x0e, 0x52, 0x65, 0x61, 0x64, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x50, 0x72, 0x6f, 0x62,
 	0x65, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x06, 0x2e, 0x50, 0x72, 0x6f, 0x62, 0x65, 0x52,
 	0x0e, 0x52, 0x65, 0x61, 0x64, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x50, 0x72, 0x6f, 0x62, 0x65, 0x22,
-	0x88, 0x01, 0x0a, 0x16, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x53,
+	0x88, 0x01, 0x0a, 0x16, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x73,
 	0x65, 0x72, 0x76, 0x65, 0x72, 0x43, 0x68, 0x61, 0x72, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61,
 	0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x20,
 	0x0a, 0x0b, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20,
@@ -2352,16 +2352,16 @@ var file_nika_application_proto_rawDesc = []byte{
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x41, 0x70, 0x70, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e,
 	0x12, 0x18, 0x0a, 0x07, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28,
 	0x09, 0x52, 0x07, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0x93, 0x01, 0x0a, 0x16, 0x43,
-	0x72, 0x65, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x28, 0x0a, 0x09, 0x57, 0x65, 0x62, 0x53, 0x65, 0x72, 0x76,
-	0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0a, 0x2e, 0x57, 0x65, 0x62, 0x53, 0x65,
-	0x72, 0x76, 0x65, 0x72, 0x52, 0x09, 0x57, 0x65, 0x62, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x12,
-	0x4f, 0x0a, 0x16, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x53, 0x65,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x28, 0x0a, 0x09, 0x57, 0x65, 0x62, 0x73, 0x65, 0x72, 0x76,
+	0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0a, 0x2e, 0x57, 0x65, 0x62, 0x73, 0x65,
+	0x72, 0x76, 0x65, 0x72, 0x52, 0x09, 0x57, 0x65, 0x62, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x12,
+	0x4f, 0x0a, 0x16, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x73, 0x65,
 	0x72, 0x76, 0x65, 0x72, 0x43, 0x68, 0x61, 0x72, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x17, 0x2e, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x53, 0x65, 0x72,
+	0x17, 0x2e, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x73, 0x65, 0x72,
 	0x76, 0x65, 0x72, 0x43, 0x68, 0x61, 0x72, 0x74, 0x52, 0x16, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61,
-	0x74, 0x65, 0x57, 0x65, 0x62, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x43, 0x68, 0x61, 0x72, 0x74,
-	0x22, 0x2d, 0x0a, 0x17, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x53, 0x65, 0x72,
+	0x74, 0x65, 0x57, 0x65, 0x62, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x43, 0x68, 0x61, 0x72, 0x74,
+	0x22, 0x2d, 0x0a, 0x17, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x73, 0x65, 0x72,
 	0x76, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x64,
 	0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x32,
 	0x83, 0x06, 0x0a, 0x0f, 0x4e, 0x69, 0x6b, 0x61, 0x41, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74,
@@ -2408,10 +2408,10 @@ var file_nika_application_proto_rawDesc = []byte{
 	0x74, 0x50, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
 	0x1a, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74,
 	0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x46, 0x0a,
-	0x0f, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72,
-	0x12, 0x17, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x53, 0x65, 0x72, 0x76,
+	0x0f, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72,
+	0x12, 0x17, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x57, 0x65, 0x62, 0x73, 0x65, 0x72, 0x76,
 	0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x18, 0x2e, 0x43, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x57, 0x65, 0x62, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x74, 0x65, 0x57, 0x65, 0x62, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f,
 	0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x64, 0x5a, 0x62, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
 	0x63, 0x6f, 0x6d, 0x2f, 0x68, 0x75, 0x6f, 0x6c, 0x75, 0x6e, 0x6c, 0x2f, 0x6e, 0x69, 0x6b, 0x61,
 	0x2d, 0x63, 0x6f, 0x6d, 0x70, 0x6f, 0x6e, 0x65, 0x6e, 0x74, 0x2d, 0x62, 0x61, 0x73, 0x65, 0x2f,
@@ -2467,10 +2467,10 @@ var file_nika_application_proto_goTypes = []interface{}{
 	(*Resources)(nil),                 // 28: Resources
 	(*ProbeConfig)(nil),               // 29: ProbeConfig
 	(*Probe)(nil),                     // 30: Probe
-	(*WebServer)(nil),                 // 31: WebServer
-	(*TemplateWebServerChart)(nil),    // 32: TemplateWebServerChart
-	(*CreateWebServerRequest)(nil),    // 33: CreateWebServerRequest
-	(*CreateWebServerResponse)(nil),   // 34: CreateWebServerResponse
+	(*Webserver)(nil),                 // 31: Webserver
+	(*TemplateWebserverChart)(nil),    // 32: TemplateWebserverChart
+	(*CreateWebserverRequest)(nil),    // 33: CreateWebserverRequest
+	(*CreateWebserverResponse)(nil),   // 34: CreateWebserverResponse
 	nil,                               // 35: Annotation.AnnotationEntry
 }
 var file_nika_application_proto_depIdxs = []int32{
@@ -2490,16 +2490,16 @@ var file_nika_application_proto_depIdxs = []int32{
 	26, // 13: Resources.Request:type_name -> Request
 	27, // 14: ProbeConfig.TcpSocket:type_name -> TcpSocket
 	29, // 15: Probe.ProbeConfig:type_name -> ProbeConfig
-	16, // 16: WebServer.Image:type_name -> Image
-	17, // 17: WebServer.ImagePullSecrets:type_name -> SecretName
-	18, // 18: WebServer.ServiceAccount:type_name -> ServiceAccount
-	19, // 19: WebServer.Service:type_name -> Service
-	21, // 20: WebServer.Ingress:type_name -> Ingress
-	28, // 21: WebServer.Resources:type_name -> Resources
-	30, // 22: WebServer.LivenessProbe:type_name -> Probe
-	30, // 23: WebServer.ReadinessProbe:type_name -> Probe
-	31, // 24: CreateWebServerRequest.WebServer:type_name -> WebServer
-	32, // 25: CreateWebServerRequest.TemplateWebServerChart:type_name -> TemplateWebServerChart
+	16, // 16: Webserver.Image:type_name -> Image
+	17, // 17: Webserver.ImagePullSecrets:type_name -> SecretName
+	18, // 18: Webserver.ServiceAccount:type_name -> ServiceAccount
+	19, // 19: Webserver.Service:type_name -> Service
+	21, // 20: Webserver.Ingress:type_name -> Ingress
+	28, // 21: Webserver.Resources:type_name -> Resources
+	30, // 22: Webserver.LivenessProbe:type_name -> Probe
+	30, // 23: Webserver.ReadinessProbe:type_name -> Probe
+	31, // 24: CreateWebserverRequest.Webserver:type_name -> Webserver
+	32, // 25: CreateWebserverRequest.TemplateWebserverChart:type_name -> TemplateWebserverChart
 	0,  // 26: NikaApplication.CreateApplication:input_type -> CreateApplicationRequest
 	6,  // 27: NikaApplication.UpdateApplication:input_type -> UpdateApplicationRequest
 	4,  // 28: NikaApplication.GetApplication:input_type -> GetApplicationRequest
@@ -2511,7 +2511,7 @@ var file_nika_application_proto_depIdxs = []int32{
 	13, // 34: NikaApplication.GetProject:input_type -> GetProjectRequest
 	14, // 35: NikaApplication.ListProject:input_type -> ListProjectRequest
 	13, // 36: NikaApplication.DeleteProject:input_type -> GetProjectRequest
-	33, // 37: NikaApplication.CreateWebServer:input_type -> CreateWebServerRequest
+	33, // 37: NikaApplication.CreateWebserver:input_type -> CreateWebserverRequest
 	1,  // 38: NikaApplication.CreateApplication:output_type -> CreateApplicationResponse
 	7,  // 39: NikaApplication.UpdateApplication:output_type -> UpdateApplicationResponse
 	5,  // 40: NikaApplication.GetApplication:output_type -> GetApplicationResponse
@@ -2523,7 +2523,7 @@ var file_nika_application_proto_depIdxs = []int32{
 	10, // 46: NikaApplication.GetProject:output_type -> Project
 	11, // 47: NikaApplication.ListProject:output_type -> Projects
 	7,  // 48: NikaApplication.DeleteProject:output_type -> UpdateApplicationResponse
-	34, // 49: NikaApplication.CreateWebServer:output_type -> CreateWebServerResponse
+	34, // 49: NikaApplication.CreateWebserver:output_type -> CreateWebserverResponse
 	38, // [38:50] is the sub-list for method output_type
 	26, // [26:38] is the sub-list for method input_type
 	26, // [26:26] is the sub-list for extension type_name
@@ -2910,7 +2910,7 @@ func file_nika_application_proto_init() {
 			}
 		}
 		file_nika_application_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WebServer); i {
+			switch v := v.(*Webserver); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2922,7 +2922,7 @@ func file_nika_application_proto_init() {
 			}
 		}
 		file_nika_application_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TemplateWebServerChart); i {
+			switch v := v.(*TemplateWebserverChart); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2934,7 +2934,7 @@ func file_nika_application_proto_init() {
 			}
 		}
 		file_nika_application_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateWebServerRequest); i {
+			switch v := v.(*CreateWebserverRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2946,7 +2946,7 @@ func file_nika_application_proto_init() {
 			}
 		}
 		file_nika_application_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateWebServerResponse); i {
+			switch v := v.(*CreateWebserverResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2994,5 +2994,5 @@ type NikaApplication interface {
 	GetProject(ctx context.Context, req *GetProjectRequest) (res *Project, err error)
 	ListProject(ctx context.Context, req *ListProjectRequest) (res *Projects, err error)
 	DeleteProject(ctx context.Context, req *GetProjectRequest) (res *UpdateApplicationResponse, err error)
-	CreateWebServer(ctx context.Context, req *CreateWebServerRequest) (res *CreateWebServerResponse, err error)
+	CreateWebserver(ctx context.Context, req *CreateWebserverRequest) (res *CreateWebserverResponse, err error)
 }
