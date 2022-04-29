@@ -98,8 +98,13 @@ message ServiceAccount{
 }
 
 message Service {
+  string type = 1;
+  repeated Ports Ports = 2;
+}
+message Ports {
   uint32 Port = 1;
-  string type = 2;
+  uint32 NodePort = 2;
+  string Protocol = 3;
 }
 
 message Path {
@@ -155,11 +160,23 @@ message Webserver {
   Image Image = 2;
   repeated SecretName ImagePullSecrets =3;
   ServiceAccount ServiceAccount = 4;
-  Service Service = 5;
+  repeated Service Services = 5;
   Ingress Ingress = 6;
   Resources Resources = 7;
   Probe LivenessProbe = 8;
   Probe ReadinessProbe = 9;
+  map<string,string> ConfigMap = 10;
+  map<string,string> Secret = 11;
+  map<string,string> Env = 12;
+  PersistentVolumeClaim PersistentVolumeClaim = 13;
+  string SchedulerName = 14;
+  string SecretMountPath = 15;
+  string ConfigMapMountPath = 16;
+  string PersistentVolumeClaimMountPath = 17;
+
+}
+message PersistentVolumeClaim {
+  string Storage = 1;
 }
 message TemplateWebserverChart{
   string name = 1;
