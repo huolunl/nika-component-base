@@ -89,6 +89,7 @@ message PatchEnvRequest {
 
 message Image {
   string Repository = 1;
+  string Tag = 2;
 }
 message SecretName {
   string Name = 1;
