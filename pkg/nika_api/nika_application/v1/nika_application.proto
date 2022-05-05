@@ -193,6 +193,12 @@ message CreateWebserverResponse{
   bytes data = 1;
 }
 
+message PatchEnvValueForWebServerRequest{
+  uint64 appID = 1;
+  string env = 2;
+  Webserver Webserver = 3;
+}
+
 service NikaApplication{
   rpc CreateApplication(CreateApplicationRequest) returns (CreateApplicationResponse) {}
   rpc UpdateApplication(UpdateApplicationRequest) returns (UpdateApplicationResponse) {}
@@ -208,5 +214,6 @@ service NikaApplication{
   rpc DeleteProject(GetProjectRequest) returns (UpdateApplicationResponse) {}
 
   rpc CreateWebserver(CreateWebserverRequest) returns(CreateWebserverResponse){}
+  rpc PatchEnvValueForWebServer(PatchEnvValueForWebServerRequest) returns(UpdateApplicationResponse){}
 
 }

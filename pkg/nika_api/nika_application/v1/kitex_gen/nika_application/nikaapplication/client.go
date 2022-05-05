@@ -23,6 +23,7 @@ type Client interface {
 	ListProject(ctx context.Context, Req *nika_application.ListProjectRequest, callOptions ...callopt.Option) (r *nika_application.Projects, err error)
 	DeleteProject(ctx context.Context, Req *nika_application.GetProjectRequest, callOptions ...callopt.Option) (r *nika_application.UpdateApplicationResponse, err error)
 	CreateWebserver(ctx context.Context, Req *nika_application.CreateWebserverRequest, callOptions ...callopt.Option) (r *nika_application.CreateWebserverResponse, err error)
+	PatchEnvValueForWebServer(ctx context.Context, Req *nika_application.PatchEnvValueForWebServerRequest, callOptions ...callopt.Option) (r *nika_application.UpdateApplicationResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -112,4 +113,9 @@ func (p *kNikaApplicationClient) DeleteProject(ctx context.Context, Req *nika_ap
 func (p *kNikaApplicationClient) CreateWebserver(ctx context.Context, Req *nika_application.CreateWebserverRequest, callOptions ...callopt.Option) (r *nika_application.CreateWebserverResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.CreateWebserver(ctx, Req)
+}
+
+func (p *kNikaApplicationClient) PatchEnvValueForWebServer(ctx context.Context, Req *nika_application.PatchEnvValueForWebServerRequest, callOptions ...callopt.Option) (r *nika_application.UpdateApplicationResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.PatchEnvValueForWebServer(ctx, Req)
 }

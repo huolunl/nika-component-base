@@ -22,18 +22,19 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "NikaApplication"
 	handlerType := (*nika_application.NikaApplication)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"CreateApplication": kitex.NewMethodInfo(createApplicationHandler, newCreateApplicationArgs, newCreateApplicationResult, false),
-		"UpdateApplication": kitex.NewMethodInfo(updateApplicationHandler, newUpdateApplicationArgs, newUpdateApplicationResult, false),
-		"GetApplication":    kitex.NewMethodInfo(getApplicationHandler, newGetApplicationArgs, newGetApplicationResult, false),
-		"ListApplication":   kitex.NewMethodInfo(listApplicationHandler, newListApplicationArgs, newListApplicationResult, false),
-		"DeleteApplication": kitex.NewMethodInfo(deleteApplicationHandler, newDeleteApplicationArgs, newDeleteApplicationResult, false),
-		"PatchEnv":          kitex.NewMethodInfo(patchEnvHandler, newPatchEnvArgs, newPatchEnvResult, false),
-		"CreateProject":     kitex.NewMethodInfo(createProjectHandler, newCreateProjectArgs, newCreateProjectResult, false),
-		"UpdateProject":     kitex.NewMethodInfo(updateProjectHandler, newUpdateProjectArgs, newUpdateProjectResult, false),
-		"GetProject":        kitex.NewMethodInfo(getProjectHandler, newGetProjectArgs, newGetProjectResult, false),
-		"ListProject":       kitex.NewMethodInfo(listProjectHandler, newListProjectArgs, newListProjectResult, false),
-		"DeleteProject":     kitex.NewMethodInfo(deleteProjectHandler, newDeleteProjectArgs, newDeleteProjectResult, false),
-		"CreateWebserver":   kitex.NewMethodInfo(createWebserverHandler, newCreateWebserverArgs, newCreateWebserverResult, false),
+		"CreateApplication":         kitex.NewMethodInfo(createApplicationHandler, newCreateApplicationArgs, newCreateApplicationResult, false),
+		"UpdateApplication":         kitex.NewMethodInfo(updateApplicationHandler, newUpdateApplicationArgs, newUpdateApplicationResult, false),
+		"GetApplication":            kitex.NewMethodInfo(getApplicationHandler, newGetApplicationArgs, newGetApplicationResult, false),
+		"ListApplication":           kitex.NewMethodInfo(listApplicationHandler, newListApplicationArgs, newListApplicationResult, false),
+		"DeleteApplication":         kitex.NewMethodInfo(deleteApplicationHandler, newDeleteApplicationArgs, newDeleteApplicationResult, false),
+		"PatchEnv":                  kitex.NewMethodInfo(patchEnvHandler, newPatchEnvArgs, newPatchEnvResult, false),
+		"CreateProject":             kitex.NewMethodInfo(createProjectHandler, newCreateProjectArgs, newCreateProjectResult, false),
+		"UpdateProject":             kitex.NewMethodInfo(updateProjectHandler, newUpdateProjectArgs, newUpdateProjectResult, false),
+		"GetProject":                kitex.NewMethodInfo(getProjectHandler, newGetProjectArgs, newGetProjectResult, false),
+		"ListProject":               kitex.NewMethodInfo(listProjectHandler, newListProjectArgs, newListProjectResult, false),
+		"DeleteProject":             kitex.NewMethodInfo(deleteProjectHandler, newDeleteProjectArgs, newDeleteProjectResult, false),
+		"CreateWebserver":           kitex.NewMethodInfo(createWebserverHandler, newCreateWebserverArgs, newCreateWebserverResult, false),
+		"PatchEnvValueForWebServer": kitex.NewMethodInfo(patchEnvValueForWebServerHandler, newPatchEnvValueForWebServerArgs, newPatchEnvValueForWebServerResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "",
@@ -1285,6 +1286,109 @@ func (p *CreateWebserverResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
+func patchEnvValueForWebServerHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(nika_application.PatchEnvValueForWebServerRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(nika_application.NikaApplication).PatchEnvValueForWebServer(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *PatchEnvValueForWebServerArgs:
+		success, err := handler.(nika_application.NikaApplication).PatchEnvValueForWebServer(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*PatchEnvValueForWebServerResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newPatchEnvValueForWebServerArgs() interface{} {
+	return &PatchEnvValueForWebServerArgs{}
+}
+
+func newPatchEnvValueForWebServerResult() interface{} {
+	return &PatchEnvValueForWebServerResult{}
+}
+
+type PatchEnvValueForWebServerArgs struct {
+	Req *nika_application.PatchEnvValueForWebServerRequest
+}
+
+func (p *PatchEnvValueForWebServerArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in PatchEnvValueForWebServerArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *PatchEnvValueForWebServerArgs) Unmarshal(in []byte) error {
+	msg := new(nika_application.PatchEnvValueForWebServerRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var PatchEnvValueForWebServerArgs_Req_DEFAULT *nika_application.PatchEnvValueForWebServerRequest
+
+func (p *PatchEnvValueForWebServerArgs) GetReq() *nika_application.PatchEnvValueForWebServerRequest {
+	if !p.IsSetReq() {
+		return PatchEnvValueForWebServerArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *PatchEnvValueForWebServerArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type PatchEnvValueForWebServerResult struct {
+	Success *nika_application.UpdateApplicationResponse
+}
+
+var PatchEnvValueForWebServerResult_Success_DEFAULT *nika_application.UpdateApplicationResponse
+
+func (p *PatchEnvValueForWebServerResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in PatchEnvValueForWebServerResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *PatchEnvValueForWebServerResult) Unmarshal(in []byte) error {
+	msg := new(nika_application.UpdateApplicationResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *PatchEnvValueForWebServerResult) GetSuccess() *nika_application.UpdateApplicationResponse {
+	if !p.IsSetSuccess() {
+		return PatchEnvValueForWebServerResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *PatchEnvValueForWebServerResult) SetSuccess(x interface{}) {
+	p.Success = x.(*nika_application.UpdateApplicationResponse)
+}
+
+func (p *PatchEnvValueForWebServerResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -1410,6 +1514,16 @@ func (p *kClient) CreateWebserver(ctx context.Context, Req *nika_application.Cre
 	_args.Req = Req
 	var _result CreateWebserverResult
 	if err = p.c.Call(ctx, "CreateWebserver", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) PatchEnvValueForWebServer(ctx context.Context, Req *nika_application.PatchEnvValueForWebServerRequest) (r *nika_application.UpdateApplicationResponse, err error) {
+	var _args PatchEnvValueForWebServerArgs
+	_args.Req = Req
+	var _result PatchEnvValueForWebServerResult
+	if err = p.c.Call(ctx, "PatchEnvValueForWebServer", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
