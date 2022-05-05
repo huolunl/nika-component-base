@@ -115,7 +115,7 @@ message Path {
 message Ingress {
   bool Enable = 1;
   string className = 2;
-  repeated Annotation Annotations = 3;
+  Annotation Annotations = 3;
   repeated Tls Tls = 4;
   repeated Host Hosts = 5;
 }
