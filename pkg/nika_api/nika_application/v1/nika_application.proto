@@ -121,7 +121,8 @@ message Ingress {
 }
 message Host {
   string name = 1;
-  repeated Path path = 2;
+  uint64 port = 2;
+  repeated Path path = 3;
 }
 
 message Tls {
