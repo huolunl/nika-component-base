@@ -117,7 +117,7 @@ message Path {
 message Ingress {
   bool Enable = 1;
   string className = 2;
-  repeated Annotation Annotations = 3;
+  map<string,string> Annotations = 3;
   repeated Tls Tls = 4;
   repeated Host Hosts = 5;
 }
@@ -131,9 +131,7 @@ message Tls {
   repeated string Hosts = 1;
   string SecretName = 2;
 }
-message Annotation {
-  map<string,string> Annotation = 1;
-}
+
 message Limit {
   string CPU = 1;
   string Memory = 2;
