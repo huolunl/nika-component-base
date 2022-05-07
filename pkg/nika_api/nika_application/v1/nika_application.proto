@@ -13,6 +13,8 @@ message CreateApplicationRequest{
   string name = 9;
   string drone = 10;
   string sonarQube = 11;
+  string image = 12;
+
 }
 message CreateApplicationResponse{
   uint64 appID = 1;
@@ -167,19 +169,14 @@ message Webserver {
   Resources Resources = 7;
   Probe LivenessProbe = 8;
   Probe ReadinessProbe = 9;
-  repeated KV ConfigMaps = 10;
-  repeated KV  Secrets = 11;
+  map<string,string> ConfigMap = 10;
+  map<string,string> Secret = 11;
   map<string,string> Env = 12;
   PersistentVolumeClaim PersistentVolumeClaim = 13;
   string SchedulerName = 14;
   string SecretMountPath = 15;
   string ConfigMapMountPath = 16;
   string PersistentVolumeClaimMountPath = 17;
-}
-
-message KV {
-  string Key = 1;
-  string Value = 2;
 }
 message PersistentVolumeClaim {
   string Storage = 1;
